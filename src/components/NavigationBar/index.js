@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from "./styles";
 import { Button, List, ListItem, IconButton } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import VinilIcon from "@material-ui/icons/AlbumOutlined";
 import { Link } from 'react-router-dom';
 import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG } from '../../locations';
 import clsx from 'clsx';
@@ -24,7 +25,7 @@ export default function NavigationBar() {
               <MenuIcon />
             </IconButton>
             <Typography className={classes.title} variant="h5">
-              Vinil
+              <VinilIcon /> Vinil
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

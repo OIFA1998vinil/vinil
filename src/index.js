@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { store, persistor } from './redux/store';
 import App from './components/App';
 import Loading from './components/Loading';
+import "./styles.css";
 
 ReactDOM.render(
   <Provider store={store}>

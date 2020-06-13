@@ -12,7 +12,8 @@ export default makeStyles((theme) => ({
   },
   title: {
     fontWeight: 'bold',
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
   },
   sectionDesktop: {
     display: 'none',
