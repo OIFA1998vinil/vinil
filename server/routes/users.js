@@ -6,7 +6,7 @@ const { validateUserCredentials } = require("./../services/user");
 
 const router = Router();
 
-router("/sign-in", (req, res) => {
+router.post("/sign-in", (req, res) => {
   const credentials = req.body;
   validateUserCredentials(credentials, (error, user) => {
     if (!error) {
@@ -16,7 +16,7 @@ router("/sign-in", (req, res) => {
   });
 });
 
-router("/sign-out", (req, res) => {
+router.post("/sign-out", (req, res) => {
   deauthenticate(res, ROLES.USER);
   resolve(req, res)(null, true);
 });

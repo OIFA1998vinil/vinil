@@ -6,7 +6,7 @@ const { validateAdminCredentials } = require("./../services/admin");
 
 const router = Router();
 
-router("/sign-in", (req, res) => {
+router.post("/sign-in", (req, res) => {
   const data = req.body;
   validateAdminCredentials(data, (error, admin) => {
     if (!error) {
@@ -16,7 +16,7 @@ router("/sign-in", (req, res) => {
   });
 });
 
-router("/sign-out", (req, res) => {
+router.post("/sign-out", (req, res) => {
   deauthenticate(res, ROLES.ADMIN);
   resolve(req, res)(null, true);
 });
