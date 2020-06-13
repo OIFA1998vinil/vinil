@@ -10,11 +10,24 @@ import { Link } from 'react-router-dom';
 import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut } from '../../redux/actions';
+import { ADMIN, USER } from '../../constants/roles';
+import { selectAuth } from '../../redux/selectors';
 
 export default function NavigationBar() {
+  const dispatch = useDispatch();
+  const adminAuth = useSelector(selectAuth(ADMIN));
+  const userAuth = useSelector(selectAuth(USER));
+
+  const hasSignIn = !!(adminAuth || userAuth);
+
   const classes = useStyles();
   const [showMenu, setShowMenu] = useState(false);
 
+  const onSignOutClick = () => {
+    dispatch(signOut());
+  }
 
   return (
     <>
@@ -33,6 +46,7 @@ export default function NavigationBar() {
               <Button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</Button>
               <Button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</Button>
               <Button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</Button>
+              {hasSignIn && <Button onClick={onSignOutClick} variant="outlined" color="inherit">Cerrar Sesión</Button>}
             </div>
           </Toolbar>
         </AppBar>
@@ -44,6 +58,7 @@ export default function NavigationBar() {
             <ListItem button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</ListItem>
             <ListItem button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</ListItem>
             <ListItem button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</ListItem>
+            {hasSignIn && <ListItem button color="inherit" onClick={onSignOutClick}>Cerrar Sesión</ListItem>}
           </List>
         </div>
       </Drawer>
