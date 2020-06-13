@@ -9,10 +9,16 @@ const router = Router();
 router.post("/sign-in", (req, res) => {
   const data = req.body;
   validateAdminCredentials(data, (error, admin) => {
+    let session = null;
     if (!error) {
-      authenticate(res, ROLES.ADMIN, admin);
+      session = {
+        _id: admin._id,
+        email: admin.email,
+        name: admin.name
+      };
+      authenticate(res, ROLES.ADMIN, session);
     }
-    resolve(req, res)(error, admin);
+    resolve(req, res)(error, session);
   });
 });
 
