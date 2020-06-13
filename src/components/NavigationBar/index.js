@@ -6,7 +6,7 @@ import useStyles from "./styles";
 import { Button, List, ListItem, IconButton } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import { Link } from 'react-router-dom';
-import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN } from '../../locations';
+import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -31,6 +31,7 @@ export default function NavigationBar() {
               <Button component={Link} to={HOME_PAGE()} color="inherit">Inicio</Button>
               <Button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</Button>
               <Button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</Button>
+              <Button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</Button>
             </div>
           </Toolbar>
         </AppBar>
@@ -41,6 +42,7 @@ export default function NavigationBar() {
             <ListItem button component={Link} to={HOME_PAGE()} color="inherit">Inicio</ListItem>
             <ListItem button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</ListItem>
             <ListItem button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</ListItem>
+            <ListItem button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</ListItem>
           </List>
         </div>
       </Drawer>

@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
-import useStyles from "./../AdminSignInPage/styles";
+import useStyles from "../shared/styles/forms";
 
 export default function SignInPage() {
   const classes = useStyles();

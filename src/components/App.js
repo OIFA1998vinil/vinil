@@ -7,7 +7,7 @@ import NavigationBar from './NavigationBar';
 
 const theme = createMuiTheme({
   palette: {
-    type: "dark",
+    // type: "dark",
     primary: blue,
     secondary: purple
   }
