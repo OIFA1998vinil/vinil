@@ -27,7 +27,6 @@ export default function MultiSelect({
         multiple
         fullWidth
         error={error}
-        helperText={helperText}
         value={value}
         onChange={handleChange}
         renderValue={selected => selected.join(", ")}

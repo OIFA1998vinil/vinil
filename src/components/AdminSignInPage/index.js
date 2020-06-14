@@ -28,7 +28,7 @@ export default function AdminSignInPage() {
 
   const cleanError = () => {
     setError(null);
-  }
+  };
 
   const onSuccess = (admin) => {
     dispatch(signIn(ADMIN, admin));
