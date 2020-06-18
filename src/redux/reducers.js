@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT } from "./types";
+import { SIGN_IN, SIGN_OUT, SET_PLAYING_SONG } from "./types";
 
 export default {
   auth: (state = {}, action) => {
@@ -14,6 +14,16 @@ export default {
           delete copy[key];
         });
         return copy;
+      }
+      default: {
+        return state;
+      }
+    }
+  },
+  playingSong: (state = null, action) => {
+    switch (action.type) {
+      case SET_PLAYING_SONG: {
+        return action.song;
       }
       default: {
         return state;

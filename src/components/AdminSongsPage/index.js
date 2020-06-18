@@ -24,10 +24,13 @@ import { SERVER_API_URL } from '../../settings';
 import Loading from '../Loading';
 import { Link } from 'react-router-dom';
 import { ADD_SONG } from '../../locations';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPlayingSong } from '../../redux/selectors';
+import { stopSong, playSong } from '../../redux/actions';
 
 export default function AdminSongsPage() {
-  const [audio, setAudio] = useState(null);
-  const [playingSong, setPlayingSong] = useState(null);
+  const dispatch = useDispatch();
+  const playingSong = useSelector(selectPlayingSong);
   const [songs, setSongs] = useState([]);
   const [loadingSongs, setLoadingSongs] = useState(true);
   const [loadError, setLoadError] = useState(null);
@@ -50,7 +53,7 @@ export default function AdminSongsPage() {
 
   const performDelete = () => {
     setLoadingDelete(true);
-    if (playingSong === stagedSongToDelete) {
+    if (playingSong?._id === stagedSongToDelete) {
       stopSong();
     }
     axios.delete(`${SERVER_API_URL}api/v1/songs/delete/${stagedSongToDelete}`, { withCredentials: true })
@@ -74,26 +77,20 @@ export default function AdminSongsPage() {
       .finally(() => setLoadingSongs(false))
   };
 
-  const stopSong = () => {
-    if (audio) {
-      audio.onended = null;
-      audio.pause();
-    }
-    setPlayingSong(null);
-    setAudio(null);
+  const stopPlayingSong = () => {
+    dispatch(stopSong());
   };
 
-  const playSong = (id, filename) => () => {
-    const newAudio = new Audio(`${SERVER_API_URL}api/v1/files/${filename}`);
-    newAudio.play();
-    newAudio.onended = stopSong;
-    setPlayingSong(id);
-    setAudio(newAudio);
+  const reproduceSong = (song) => () => {
+    dispatch(playSong(song));
   };
 
   useEffect(() => {
     loadSongs();
-  }, []);
+    return () => {
+      dispatch(stopSong());
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -128,10 +125,10 @@ export default function AdminSongsPage() {
                   <TableRow key={song._id}>
                     <TableCell>
                       <IconButton
-                        title={playingSong === song._id ? "Detener" : "Reproducir"}
-                        onClick={playingSong === song._id ? stopSong : playSong(song._id, song.source)}
+                        title={playingSong?._id === song._id ? "Detener" : "Reproducir"}
+                        onClick={playingSong?._id === song._id ? stopPlayingSong : reproduceSong(song)}
                       >
-                        {playingSong === song._id ?
+                        {playingSong?._id === song._id ?
                           <StopIcon />
                           :
                           <PlayIcon />
