@@ -2,7 +2,7 @@ const { Router } = require('express');
 const resolve = require("./../api/resolve");
 const ROLES = require("./../constants/roles");
 const { authorize } = require("./../security/auth");
-const { selectAllSongs, insertSong } = require("./../services/song");
+const { selectAllSongs, insertSong, deleteSong } = require("./../services/song");
 const upload = require('../middlewares/upload');
 const router = Router();
 
@@ -25,6 +25,12 @@ router.post("/insert",
       thumbnail: thumbnailFile.filename,
       source: songFile.filename
     }, resolve(req, res));
-  });
+  }
+);
+
+router.delete("/delete/:id", authorize(ROLES.ADMIN), (req, res) => {
+  const { id } = req.params;
+  deleteSong(id, resolve(req, res));
+});
 
 module.exports = router;

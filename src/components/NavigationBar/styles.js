@@ -6,25 +6,21 @@ export default makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
   },
   title: {
     fontWeight: 'bold',
     display: 'flex',
     alignItems: 'center',
   },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
+  titleMenu: {
+    marginTop: "20px",
+    justifyContent: "center",
+    color: theme.palette.primary
   },
   marginBottom: {
     marginBottom: theme.spacing(4),
   },
   menu: {
-    width: "200px"
+    width: "250px"
   }
 }));

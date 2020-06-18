@@ -7,7 +7,7 @@ function authenticate(res, key, data) {
 }
 
 function deauthenticate(res, key) {
-  res.cookie(key, '', { expires: new Date(Date.now()), secure: false, httpOnly: true });
+  res.clearCookie(key);
 }
 
 function authorize(...keys) {
