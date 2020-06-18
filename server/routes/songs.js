@@ -1,9 +1,12 @@
 const { Router } = require('express');
+const fs = require("fs");
 const resolve = require("./../api/resolve");
 const ROLES = require("./../constants/roles");
 const { authorize } = require("./../security/auth");
 const { selectAllSongs, insertSong, deleteSong } = require("./../services/song");
+const drive = require("./../services/drive");
 const upload = require('../middlewares/upload');
+const { exception } = require('console');
 const router = Router();
 
 router.get("/all", authorize(ROLES.ADMIN, ROLES.USER), (req, res) => {
@@ -20,11 +23,23 @@ router.post("/insert",
     const data = req.body;
     const [thumbnailFile] = req.files.thumbnail;
     const [songFile] = req.files.song;
-    insertSong({
-      ...data,
-      thumbnail: thumbnailFile.filename,
-      source: songFile.filename
-    }, resolve(req, res));
+    Promise.all([
+      new Promise((res, rej) => drive.upload(thumbnailFile.path, (err, id) => err ? rej(err) : res(id))),
+      new Promise((res, rej) => drive.upload(songFile.path, (err, id) => err ? rej(err) : res(id)))
+    ]).then(([thumbnail, source]) => {
+      insertSong({
+        ...data,
+        thumbnail,
+        source
+      }, (err, song) => {
+        resolve(req, res)(err, song);
+        fs.unlink(thumbnailFile.path);
+        fs.unlink(songFile.path);
+      });
+    })
+      .catch(err => {
+        resolve(req, res)(exception(err))
+      });
   }
 );
 

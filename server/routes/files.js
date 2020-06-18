@@ -1,11 +1,16 @@
 const { Router } = require('express');
-const path = require("path");
+const drive = require("./../services/drive");
 
 const router = Router();
 
-router.get("/:filename", (req, res) => {
-  const { filename } = req.params;
-  res.sendFile(path.join(__dirname + "/../../uploads/" + filename));
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  drive.get(id, res, err => {
+    if (err) {
+      res.status(404);
+      res.end();
+    }
+  });
 });
 
 module.exports = router;
