@@ -7,14 +7,14 @@ import MultiSelect from '../shared/components/MultiSelect';
 import { useForm, Controller } from 'react-hook-form';
 import FileZone from '../shared/components/FileZone';
 import { post } from 'axios';
-import { API_URL } from '../../settings';
+import { SERVER_API_URL } from '../../settings';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
-import { ADMIN_LANDING } from '../../locations';
+import { ADMIN_SONGS } from '../../locations';
 
 export default function AddSongPage() {
   const classes = useStyles();
@@ -27,7 +27,7 @@ export default function AddSongPage() {
 
   const exit = () => {
     setSuccess(false);
-    history.push(ADMIN_LANDING());
+    history.push(ADMIN_SONGS());
   };
 
   const cleanError = () => {
@@ -44,6 +44,7 @@ export default function AddSongPage() {
   };
 
   const onSubmit = (data) => {
+    setLoading(true);
     var formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (['song', 'thumbnail'].includes(key)) {
@@ -52,7 +53,7 @@ export default function AddSongPage() {
         formData.append(key, value)
       }
     });
-    post(`${API_URL}api/v1/songs/insert`, formData, {
+    post(`${SERVER_API_URL}api/v1/songs/insert`, formData, {
       withCredentials: true,
       headers: { 'Content-Type': 'multipart/form-data' }
     })
@@ -169,6 +170,7 @@ export default function AddSongPage() {
                           "Salsa",
                           "Rock",
                           "Jazz",
+                          "Folk",
                           "HipHop",
                           "Arjona",
                           "El Buki",

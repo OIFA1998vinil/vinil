@@ -16,6 +16,7 @@ export default function FileZone({ initialValue, legend, error, label, helperTex
         filesLimit={1}
         showAlerts={false}
         initialFiles={initialValue}
+        maxFileSize={10000000}
         previewText=""
         showPreviewsInDropzone={false}
         dropzoneClass="drop-zone"
