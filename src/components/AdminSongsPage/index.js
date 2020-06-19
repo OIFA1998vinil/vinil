@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, IconButton } from '@material-ui/core';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,6 +13,8 @@ import StopIcon from '@material-ui/icons/Stop';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -23,6 +25,7 @@ import axios from "axios";
 import { SERVER_API_URL } from '../../settings';
 import Loading from '../Loading';
 import { Link } from 'react-router-dom';
+import Fuse from "fuse.js";
 import { ADD_SONG } from '../../locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPlayingSong } from '../../redux/selectors';
@@ -38,6 +41,16 @@ export default function AdminSongsPage() {
   const [stagedSongToDelete, setStagedSongToDelete] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const displayableSongs = useMemo(() => {
+    if (!search) {
+      return songs;
+    }
+    const fuse = new Fuse(songs, { keys: ["title", "year", "genres"] });
+    const result = fuse.search(search);
+    return result.map(result => result.item);
+  }, [songs, search])
 
   const cleanDeleteError = () => setDeleteError(null);
 
@@ -108,9 +121,27 @@ export default function AdminSongsPage() {
         <br /><br />
         {loadingSongs && <Loading />}
         {loadError && <Alert severity="error">{loadError}</Alert>}
-        {!loadingSongs && !loadError && (songs.length ?
+        <Paper elevation={0}>
+          <TextField
+            placeholder="Busque por título, géneros"
+            onChange={event => setSearch(event.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment >
+              ),
+            }}
+            label="Buscar"
+            variant="outlined"
+            fullWidth
+          />
+        </Paper>
+        <br />
+        {!loadingSongs && !loadError && (displayableSongs.length ?
+
           <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox" />
@@ -121,7 +152,7 @@ export default function AdminSongsPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {songs.map((song) => (
+                {displayableSongs.map((song) => (
                   <TableRow key={song._id}>
                     <TableCell>
                       <IconButton
@@ -148,6 +179,7 @@ export default function AdminSongsPage() {
               </TableBody>
             </Table>
           </TableContainer>
+
           :
           <Alert severity="warning">No hay canciones</Alert>
         )}
