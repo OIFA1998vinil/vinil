@@ -1,6 +1,21 @@
 const exception = require("./../errors/exception");
 const User = require("./../models/User");
 
+function createUser(data, callback) {
+  const user = new User({ ...data, status: 'pending' });
+  user.save()
+    .then((result) => {
+      callback(null, result);
+    })
+    .catch(err => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        callback(exception("Ya existe un usuario registrado con ese correo electrónico", 422));
+      } else {
+        callback(exception(err));
+      }
+    });
+}
+
 function validateUserCredentials(data, callback) {
   const user = new User(data);
   User.findOne({ email: user.email }, (error, result) => {
@@ -26,5 +41,6 @@ function validateUserCredentials(data, callback) {
 }
 
 module.exports = {
-  validateUserCredentials
+  validateUserCredentials,
+  createUser
 };

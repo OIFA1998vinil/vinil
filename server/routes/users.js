@@ -2,7 +2,7 @@ const { Router } = require('express');
 const resolve = require("./../api/resolve");
 const ROLES = require("./../constants/roles");
 const { authenticate, deauthenticate } = require("./../security/auth");
-const { validateUserCredentials } = require("./../services/user");
+const { validateUserCredentials, createUser } = require("./../services/user");
 
 const router = Router();
 
@@ -14,6 +14,11 @@ router.post("/sign-in", (req, res) => {
     }
     resolve(req, res)(error, user);
   });
+});
+
+router.post("/sign-up", (req, res) => {
+  const user = req.body;
+  createUser(user, resolve(req, res));
 });
 
 router.post("/sign-out", (req, res) => {
