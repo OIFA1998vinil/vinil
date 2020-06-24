@@ -10,6 +10,9 @@ export default makeStyles((theme) => ({
   padding: {
     padding: theme.spacing(4),
   },
+  center: {
+    textAlign: 'center'
+  },
   noMarginTop: {
     marginTop: 0,
   },

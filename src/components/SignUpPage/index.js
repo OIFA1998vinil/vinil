@@ -18,11 +18,12 @@ import Select from '@material-ui/core/Select';
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../../redux/selectors';
 import { USER } from '../../constants/roles';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, Link } from 'react-router-dom';
 import { ADMIN_LANDING, SIGN_IN } from '../../locations';
 import DateFnsUtils from '@date-io/date-fns';
 import esLocale from "date-fns/locale/es";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import clsx from 'clsx';
 export default function SignUpPage() {
   const history = useHistory();
   const auth = useSelector(selectAuth(USER));
@@ -200,6 +201,9 @@ export default function SignUpPage() {
                     fullWidth>
                     {loading ? "Creando solicitud" : "Solicitar registro"}
                   </Button>
+                </div>
+                <div className={clsx(classes.marginTop, classes.center)}>
+                  ¿Ya tiene una cuenta? <Link to={SIGN_IN()}>Iniciar Sesión</Link>
                 </div>
               </form>
             </Paper>
