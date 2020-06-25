@@ -4,5 +4,6 @@ export const ADMIN_SIGN_IN = () => '/admin/iniciar-sesion';
 export const SIGN_IN = () => '/iniciar-sesion';
 export const ADMIN_LANDING = () => '/admin';
 export const ADMIN_SONGS = () => '/admin/canciones';
+export const ADMIN_REQUESTS_USERS = () => '/admin/solicitudes/usuarios';
 export const ADD_SONG = () => '/admin/canciones/agregar';
 export const SIGN_UP = () => '/registro';

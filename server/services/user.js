@@ -1,5 +1,6 @@
 const exception = require("./../errors/exception");
 const User = require("./../models/User");
+const { sendMail } = require("./mail");
 
 function createUser(data, callback) {
   const user = new User({ ...data, status: 'pending' });
@@ -40,7 +41,50 @@ function validateUserCredentials(data, callback) {
   });
 }
 
+function pendingUsers(callback) {
+  User.find({ status: "pending" }, '-password', (err, requests) => {
+    if (err) {
+      callback(exception(err));
+    } else {
+      callback(null, requests);
+    }
+  })
+}
+
+function acceptUser(id, callback) {
+  User.updateOne({ _id: id }, { status: "approved" }, (err) => {
+    if (err) {
+      callback(exception(err));
+    } else {
+      callback();
+      User.findById(id, (err, user) => {
+        if (!err) {
+          sendMail({
+            to: user.email,
+            subject: "Su solicitud de registro ha sido aprovada",
+            template: "user-request-accepted",
+            context: { name: user.name, lastName: user.lastName, email: user.email }
+          });
+        }
+      });
+    }
+  });
+}
+
+function rejectUser(id, callback) {
+  User.deleteOne({ _id: id }, (err) => {
+    if (err) {
+      callback(exception(err));
+    } else {
+      callback();
+    }
+  });
+}
+
 module.exports = {
   validateUserCredentials,
-  createUser
+  createUser,
+  acceptUser,
+  rejectUser,
+  pendingUsers
 };
