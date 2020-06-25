@@ -121,23 +121,25 @@ export default function AdminSongsPage() {
         <br /><br />
         {loadingSongs && <Loading />}
         {loadError && <Alert severity="error">{loadError}</Alert>}
-        <Paper elevation={0}>
-          <TextField
-            placeholder="Busque por título, géneros"
-            onChange={event => setSearch(event.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment >
-              ),
-            }}
-            label="Buscar"
-            variant="outlined"
-            fullWidth
-          />
-        </Paper>
-        <br />
+        {!loadingSongs && !loadError && (<>
+          <Paper elevation={0}>
+            <TextField
+              placeholder="Busque por título, géneros"
+              onChange={event => setSearch(event.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment >
+                ),
+              }}
+              label="Buscar"
+              variant="outlined"
+              fullWidth
+            />
+          </Paper>
+          <br />
+        </>)}
         {!loadingSongs && !loadError && (displayableSongs.length ?
 
           <TableContainer component={Paper}>
