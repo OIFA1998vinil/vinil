@@ -2,7 +2,7 @@ const { Router } = require('express');
 const resolve = require("./../api/resolve");
 const ROLES = require("./../constants/roles");
 const { authenticate, deauthenticate, authorize } = require("./../security/auth");
-const { validateUserCredentials, createUser, pendingUsers, acceptUser, rejectUser } = require("./../services/user");
+const { validateUserCredentials, createUser, pendingUsers, acceptUser, rejectUser, activeUsers } = require("./../services/user");
 
 const router = Router();
 
@@ -24,6 +24,10 @@ router.post("/sign-up", (req, res) => {
 router.post("/sign-out", (req, res) => {
   deauthenticate(res, ROLES.USER);
   resolve(req, res)(null, true);
+});
+
+router.get("/active", authorize(ROLES.ADMIN), (req, res) => {
+  activeUsers(resolve(req, res));
 });
 
 router.get("/pending", authorize(ROLES.ADMIN), (req, res) => {

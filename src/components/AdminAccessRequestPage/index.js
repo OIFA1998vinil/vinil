@@ -78,7 +78,7 @@ export default function AdminSongsPage() {
     setLoadingReject(true);
     axios.post(`${SERVER_API_URL}api/v1/users/reject/${stagedRequestToReject}`, null, { withCredentials: true })
       .then(() => loadRequests())
-      .catch(err => setAcceptError(err.response?.data?.error || 'Hubo un error de conexión al rechazar la solicitud'))
+      .catch(err => setRejectError(err.response?.data?.error || 'Hubo un error de conexión al rechazar la solicitud'))
       .finally(() => {
         cancelReject();
         setLoadingReject(false);

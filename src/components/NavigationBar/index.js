@@ -7,7 +7,7 @@ import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button }
 import Drawer from '@material-ui/core/Drawer';
 import VinilIcon from "@material-ui/icons/Radio";
 import { Link } from 'react-router-dom';
-import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS } from '../../locations';
+import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -88,6 +88,7 @@ export default function NavigationBar() {
                 <ListItem button component={Link} to={ADMIN_LANDING()} color="inherit">Inicio</ListItem>
                 <ListItem button component={Link} to={ADMIN_SONGS()} color="inherit">Canciones</ListItem>
                 <ListItem button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</ListItem>
+                <ListItem button component={Link} to={ADMIN_USERS()} color="inherit">Usuarios</ListItem>
                 <ListItem button component={Link} to={ADMIN_REQUESTS_USERS()} color="inherit">Solicitudes de Usuarios</ListItem>
                 <ListItem button color="inherit" onClick={onAdminSignOutClick} disabled={isAdminSigningOut}>{isAdminSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
               </>

@@ -51,6 +51,16 @@ function pendingUsers(callback) {
   })
 }
 
+function activeUsers(callback) {
+  User.find({ status: "approved" }, '-password', (err, requests) => {
+    if (err) {
+      callback(exception(err));
+    } else {
+      callback(null, requests);
+    }
+  })
+}
+
 function acceptUser(id, callback) {
   User.updateOne({ _id: id }, { status: "approved" }, (err) => {
     if (err) {
@@ -86,5 +96,6 @@ module.exports = {
   createUser,
   acceptUser,
   rejectUser,
-  pendingUsers
+  pendingUsers,
+  activeUsers
 };

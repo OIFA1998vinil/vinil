@@ -7,3 +7,4 @@ export const ADMIN_SONGS = () => '/admin/canciones';
 export const ADMIN_REQUESTS_USERS = () => '/admin/solicitudes/usuarios';
 export const ADD_SONG = () => '/admin/canciones/agregar';
 export const SIGN_UP = () => '/registro';
+export const ADMIN_USERS = () => '/admin/users';
