@@ -6,67 +6,93 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SERVER_API_URL } from '../../../settings';
-import { Grid } from '@material-ui/core';
+import { CardMedia, useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: '10px',
-  },
-  details: {
-    height: '100%',
+  cardArea: {
     display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     flexDirection: 'column',
+    overflow: 'hidden',
+    margin: '10px 5px',
+    width: 370,
   },
-  content: {
-    flex: '1 0 auto',
+
+  card: {
+    width: 300,
+    height: 190,
   },
-  coverContainer: {
-    maxHeight: "200px"
-  },
-  cover: {
-    width: "auto",
-    height: "200px",
-    objectFit: "cover",
-  },
-  controls: {
+
+  wrapper: {
     display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    justifyContent: 'space-between',
   },
-  playIcon: {
-    height: 38,
-    width: 38,
+
+  col: {
+    flex: '0 0 52%',
+  },
+
+  cardImage: {
+    width: 244,
+    objectFit: 'cover',
+  },
+
+  noPadding: {
+    padding: 0,
+  },
+
+  width: {
+    width: 315,
+    margin: 10,
+  },
+
+  height: {
+    height: 141,
+  },
+
+  xsCol: {
+    flex: '0 0 46%',
+  },
+
+  xsImage: {
+    width: 180,
   },
 }));
 
-export default function SongCard({ song }) {
-  const classes = useStyles();
 
+
+export default function SongCard({ song, onPlay }) {
+  const classes = useStyles();
+  const isMobile = useMediaQuery('(max-width: 600px)');
   return (
-    <Card className={classes.root}>
-      <Grid container>
-        <Grid item xs={6}>
-          <div className={classes.details}>
-            <CardContent className={classes.content}>
-              <Typography component="h5" variant="h5">
+    <Card className={isMobile ? classes.width : classes.cardArea}>
+      <div className={isMobile ? classes.height : classes.card}>
+        <div className={classes.wrapper}>
+          <div className={isMobile ? classes.xsCol : classes.col}>
+            <CardContent>
+              <Typography component="h5" variant="5">
                 {song.title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 {song.year}
               </Typography>
+              <div>
+                <IconButton onClick={onPlay}>
+                  <PlayArrowIcon className={classes.playIcon} />
+                </IconButton>
+              </div>
             </CardContent>
-            <div className={classes.controls}>
-              <IconButton aria-label="play/pause">
-                <PlayArrowIcon className={classes.playIcon} />
-              </IconButton>
-            </div>
           </div>
-        </Grid>
-        <Grid className={classes.coverContainer} item xs={6}>
-          <img className={classes.cover} src={`${SERVER_API_URL}api/v1/files/${song.thumbnail}`} alt={song.title} />
-        </Grid>
-      </Grid>
+          <div className={isMobile ? classes.xsCol : classes.col}>
+            <CardContent className={classes.noPadding}>
+              <CardMedia>
+                <img className={isMobile ? classes.xsImage : classes.cardImage} src={`${SERVER_API_URL}api/v1/files/${song.thumbnail}`} alt={song.title} />
+              </CardMedia>
+            </CardContent>
+          </div>
+        </div>
+      </div>
     </Card>
   );
 }
