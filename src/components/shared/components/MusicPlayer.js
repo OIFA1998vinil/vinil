@@ -5,8 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import AlbumIcon from '@material-ui/icons/Album';
 import Slider from '@material-ui/core/Slider';
 
@@ -113,7 +111,7 @@ export default function MusicPlayer({ song }) {
       <audio preload="auto" src={src} ref={audioRef} onTimeUpdate={onTimeUpdate} hidden />
       <Paper elevation={5}>
         <div>
-          <Slider className={classes.slider} disabled={!audio || isLoading} onChange={onProgressChange} value={progress} />
+          <Slider className={classes.slider} disabled={!(audioRef.current?.src) || isLoading} onChange={onProgressChange} value={progress} />
         </div>
         <div className={classes.root}>
           <div className={classes.info}>
@@ -127,27 +125,21 @@ export default function MusicPlayer({ song }) {
                 src={`${SERVER_API_URL}api/v1/files/${song.thumbnail}`} />
             )}
             <span className={clsx(classes.verticalCenter)}>
-              {song?.title || 'Ninguno'}
+              {song?.title || ''}
             </span>
           </div>
           <div className={classes.controls}>
             <div className={classes.verticalCenter}>
-              <IconButton >
-                <SkipPreviousIcon />
-              </IconButton>
               {!isPlaying && (
-                <IconButton disabled={!audio || isLoading} onClick={play}>
+                <IconButton className={classes.margin} disabled={!(audioRef.current?.src) || isLoading} onClick={play}>
                   <PlayArrowIcon />
                 </IconButton>
               )}
               {isPlaying && (
-                <IconButton disabled={!audio || isLoading} onClick={pause}>
+                <IconButton className={classes.margin} disabled={!(audioRef.current?.src) || isLoading} onClick={pause}>
                   <PauseIcon />
                 </IconButton>
               )}
-              <IconButton >
-                <SkipNextIcon />
-              </IconButton>
             </div>
           </div>
         </div>

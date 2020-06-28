@@ -30,6 +30,7 @@ export default function NavigationBar() {
   const userAuth = useSelector(selectAuth(USER));
   const [error, setError] = useState(null);
   const [isAdminSigningOut, setIsAdminSigningOut] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const cleanError = () => setError(null);
 
@@ -43,6 +44,19 @@ export default function NavigationBar() {
       })
       .catch(error => setError(error.response?.data?.error || 'Hubo un error de conexión'))
       .finally(() => setIsAdminSigningOut(false));
+  };
+
+
+  const onSignOutClick = (event) => {
+    event.stopPropagation();
+    setIsSigningOut(true);
+    post(`${API_URL}api/v1/users/sign-out`, null, { withCredentials: true })
+      .then(() => {
+        dispatch(signOut([USER]));
+        setShowMenu(false);
+      })
+      .catch(error => setError(error.response?.data?.error || 'Hubo un error de conexión'))
+      .finally(() => setIsSigningOut(false));
   };
 
   return (
@@ -71,7 +85,7 @@ export default function NavigationBar() {
               userAuth ?
                 <>
                   <ListItem button component={Link} to={HOME_PAGE()} color="inherit">Inicio</ListItem>
-                  <ListItem button component={Link} to={HOME_PAGE()} color="inherit">Cerrar Sesión</ListItem>
+                  <ListItem button color="inherit" onClick={onSignOutClick} disabled={isSigningOut}>Cerrar Sesión</ListItem>
                 </>
                 :
                 <ListItem button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</ListItem>
