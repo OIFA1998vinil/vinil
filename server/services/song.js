@@ -15,9 +15,10 @@ function insertSong(data, callback) {
 function selectAllSongs(callback) {
   Song.find({}, (error, results) => {
     if (error) {
-      return callback(exception(error));
+      callback(exception(error));
+    } else {
+      callback(null, results);
     }
-    return callback(null, results);
   });
 }
 

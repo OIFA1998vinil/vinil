@@ -1,5 +1,8 @@
 function resolve(req, res) {
+  let called = false;
   return (error, data) => {
+    if (called) return;
+    called = true;
     if (error) {
       res.status(error.code);
       res.json({ error: error.message });

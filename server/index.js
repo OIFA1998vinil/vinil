@@ -13,4 +13,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("build"));
 Object.entries(routes).forEach(([path, router]) => app.use(`/api/v1/${path}`, router));
 app.get('*', (_, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
+app.use((err, req, res, next) => res.status(500).send({ error: err }));
 app.listen(process.env.PORT || 8080);
