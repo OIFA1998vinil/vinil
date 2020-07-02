@@ -14,7 +14,10 @@ const SCOPES = [
 // time.
 const TOKEN_PATH = path.join(__dirname + '/token.json');
 
-
+/**
+ * 
+ * @param {(error: Error, drive : drive_v3 ) => void} callback
+ */
 function connect(callback) {
   // Load client secrets from a local file.
   fs.readFile(path.join(__dirname + '/credentials.json'), (err, content) => {
@@ -126,20 +129,31 @@ function get(id, stream, callback) {
     if (err) {
       callback(err);
     } else {
-      drive.files.get({ fileId: id, alt: 'media' }, { responseType: 'stream' },
-        function (err, res) {
-          if (err) {
-            return callback(err);
-          }
-          res.data
-            .on('end', () => {
-              callback(null)
-            })
-            .on('error', err => {
-              callback(err);
-            })
-            .pipe(stream);
-        })
+      drive.files.get({ fileId: id, alt: 'media' }, { responseType: 'stream' }, (err, res) => {
+        if (err) {
+          return callback(err);
+        }
+        res.data
+          .on('end', () => {
+            callback(null)
+          })
+          .on('error', err => {
+            callback(err);
+          })
+          .pipe(stream);
+      })
+    }
+  })
+}
+
+function remove(id, callback = () => { }) {
+  connect((err, drive) => {
+    if (err) {
+      callback(err);
+    } else {
+      drive.files.delete({ fileId: id })
+        .then(() => callback(null))
+        .catch(error => callback(error))
     }
   })
 }
@@ -147,5 +161,6 @@ function get(id, stream, callback) {
 
 module.exports = {
   upload,
-  get
+  get,
+  remove
 };
