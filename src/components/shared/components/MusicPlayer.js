@@ -84,8 +84,17 @@ export default function MusicPlayer({ song }) {
       setSource(URL.createObjectURL(request.response))
       setIsLoading(false);
       play();
+
+      if (navigator.mediaSession) {
+        navigator.mediaSession.metadata = new window.MediaMetadata({
+          title: song.title,
+          artwork: [{ src: `${SERVER_API_URL}api/v1/files/${song.thumbnail}`, sizes: '512x512', type: 'image/png' }]
+        });
+        navigator.mediaSession.setActionHandler('play', play);
+        navigator.mediaSession.setActionHandler('pause', pause);
+      }
     }
-  }, [play]);
+  }, [play, song]);
 
   const loadAudio = useCallback(() => {
     setTime(0);

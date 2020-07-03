@@ -71,7 +71,7 @@ export default function SongCard({ song, onPlay }) {
         <div className={classes.wrapper}>
           <div className={isMobile ? classes.xsCol : classes.col}>
             <CardContent>
-              <Typography component="h5" variant="5">
+              <Typography component="h1">
                 {song.title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
