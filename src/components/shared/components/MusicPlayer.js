@@ -97,6 +97,9 @@ export default function MusicPlayer({ song }) {
     request.send();
   }, [song, loadHandler])
 
+  const onStop = () => setIsPlaying(false);
+  const onPlay = () => setIsPlaying(true);
+
   useEffect(() => {
     if (isPlaying) {
       pause();
@@ -108,7 +111,7 @@ export default function MusicPlayer({ song }) {
 
   return (
     <>
-      <audio preload="auto" src={src} ref={audioRef} onTimeUpdate={onTimeUpdate} hidden />
+      <audio preload="auto" src={src} ref={audioRef} onEnded={onStop} onPause={onStop} onPlay={onPlay} onTimeUpdate={onTimeUpdate} hidden />
       <Paper elevation={5}>
         <div>
           <Slider className={classes.slider} disabled={!(audioRef.current?.src) || isLoading} onChange={onProgressChange} value={progress} />
