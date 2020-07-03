@@ -168,7 +168,6 @@ export default function AddSongPage() {
                         helperText={form.errors.genres?.message}
                         options={[
                           "Salsa",
-                          "Rock",
                           "Jazz",
                           "Folk",
                           "HipHop",
@@ -195,7 +194,12 @@ export default function AddSongPage() {
                           "Ragtime",
                           "Swing",
                           "Bebop",
-                          "Doo wop"
+                          "Doo wop",
+                          "Balada",
+                          "Latino",
+                          "Cumbia",
+                          "Bolero",
+                          "Ranchera"
                         ]}
                       />
                     }

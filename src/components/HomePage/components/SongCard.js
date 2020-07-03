@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { SERVER_API_URL } from '../../../settings';
 import { CardMedia, useMediaQuery } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const useStyles = makeStyles((theme) => ({
   cardArea: {
@@ -87,7 +88,7 @@ export default function SongCard({ song, onPlay }) {
           <div className={isMobile ? classes.xsCol : classes.col}>
             <CardContent className={classes.noPadding}>
               <CardMedia>
-                <img className={isMobile ? classes.xsImage : classes.cardImage} src={`${SERVER_API_URL}api/v1/files/${song.thumbnail}`} alt={song.title} />
+                <LazyLoadImage className={isMobile ? classes.xsImage : classes.cardImage} src={`${SERVER_API_URL}api/v1/files/${song.thumbnail}`} alt={song.title} />
               </CardMedia>
             </CardContent>
           </div>
