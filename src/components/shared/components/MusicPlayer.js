@@ -84,8 +84,17 @@ export default function MusicPlayer({ song }) {
       setSource(URL.createObjectURL(request.response))
       setIsLoading(false);
       play();
+
+      if (navigator.mediaSession) {
+        navigator.mediaSession.metadata = new window.MediaMetadata({
+          title: song.title,
+          artwork: [{ src: `${SERVER_API_URL}api/v1/files/${song.thumbnail}`, sizes: '512x512', type: 'image/png' }]
+        });
+        navigator.mediaSession.setActionHandler('play', play);
+        navigator.mediaSession.setActionHandler('pause', pause);
+      }
     }
-  }, [play]);
+  }, [play, song]);
 
   const loadAudio = useCallback(() => {
     setTime(0);
@@ -96,6 +105,9 @@ export default function MusicPlayer({ song }) {
     request.onload = loadHandler;
     request.send();
   }, [song, loadHandler])
+
+  const onStop = () => setIsPlaying(false);
+  const onPlay = () => setIsPlaying(true);
 
   useEffect(() => {
     if (isPlaying) {
@@ -108,7 +120,7 @@ export default function MusicPlayer({ song }) {
 
   return (
     <>
-      <audio preload="auto" src={src} ref={audioRef} onTimeUpdate={onTimeUpdate} hidden />
+      <audio preload="auto" src={src} ref={audioRef} onEnded={onStop} onPause={onStop} onPlay={onPlay} onTimeUpdate={onTimeUpdate} hidden />
       <Paper elevation={5}>
         <div>
           <Slider className={classes.slider} disabled={!(audioRef.current?.src) || isLoading} onChange={onProgressChange} value={progress} />

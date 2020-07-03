@@ -1,15 +1,12 @@
 const exception = require("./../errors/exception");
 const Song = require("./../models/Song");
+const { remove } = require("./drive");
 
 function insertSong(data, callback) {
   const song = new Song(data);
   song.save()
-    .then(result => {
-      callback(null, result);
-    })
-    .catch(error => {
-      callback(exception(error));
-    });
+    .then(result => callback(null, result))
+    .catch(error => callback(exception(error)));
 }
 
 function selectAllSongs(callback) {
@@ -31,13 +28,16 @@ function deleteSong(id, callback) {
       return callback(exception("La canción ya ha sido eliminada o no existe", 422));
     }
 
-    // TODO: delete in google drive
+    const songId = result.source;
+    const thumbnailId = result.thumbnail;
 
     Song.deleteOne({ _id: result._id }, err => {
       if (err) {
         callback(exception(err))
       } else {
         callback(null, true);
+        remove(songId);
+        remove(thumbnailId);
       }
     });
   });
