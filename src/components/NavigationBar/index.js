@@ -7,7 +7,7 @@ import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button }
 import Drawer from '@material-ui/core/Drawer';
 import VinilIcon from "@material-ui/icons/Radio";
 import { Link } from 'react-router-dom';
-import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLAB_SIGN_IN } from '../../locations';
+import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { signOut } from '../../redux/actions';
-import { ADMIN, USER, COLABORATOR } from '../../constants/roles';
+import { ADMIN, USER, COLLABORATOR } from '../../constants/roles';
 import { selectAuth } from '../../redux/selectors';
 import { API_URL } from '../../settings';
 
@@ -29,10 +29,10 @@ export default function NavigationBar() {
 
   const adminAuth = useSelector(selectAuth(ADMIN));
   const userAuth = useSelector(selectAuth(USER));
-  const colabAuth = useSelector(selectAuth(COLABORATOR));
+  const collabAuth = useSelector(selectAuth(COLLABORATOR));
 
   const [error, setError] = useState(null);
-  const [isColabSigningOut, setIsColabSigningOut] = useState(false);
+  const [isCollabSigningOut, setIsCollabSigningOut] = useState(false);
   const [isAdminSigningOut, setIsAdminSigningOut] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
 
@@ -41,14 +41,14 @@ export default function NavigationBar() {
 
   const onColabSignOutClick = (event) => {
     event.stopPropagation();
-    setIsColabSigningOut(true);
+    setIsCollabSigningOut(true);
     post(`${API_URL}api/v1/colaborators/sign-out`, null, { withCredentials: true })
       .then(() => {
-        dispatch(signOut([COLABORATOR]));
+        dispatch(signOut([COLLABORATOR]));
         setShowMenu(false);
       })
       .catch(error => setError(error.response?.data?.error || 'Hubo un error de conexión'))
-      .finally(() => setIsColabSigningOut(false));
+      .finally(() => setIsCollabSigningOut(false));
   };
 
   const onAdminSignOutClick = (event) => {
@@ -131,13 +131,13 @@ export default function NavigationBar() {
               Colaboradores
             </ListSubheader>
           }>
-            {colabAuth ?
+            {collabAuth ?
               <>
                 <ListItem button component={Link} to={ADMIN_LANDING()} color="inherit">Inicio</ListItem>
-                <ListItem button color="inherit" onClick={onColabSignOutClick} disabled={isColabSigningOut}>{isColabSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
+                <ListItem button color="inherit" onClick={onColabSignOutClick} disabled={isCollabSigningOut}>{isCollabSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
               </>
               :
-              <ListItem button component={Link} to={COLAB_SIGN_IN()} color="inherit">Colab Iniciar Sesión</ListItem>
+              <ListItem button component={Link} to={COLLAB_SIGN_IN()} color="inherit">Colab Iniciar Sesión</ListItem>
             }
           </List>
         </div>

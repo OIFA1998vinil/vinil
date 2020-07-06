@@ -2,5 +2,6 @@ module.exports = {
   "admin": require("./admin"),
   "users": require("./users"),
   "songs": require("./songs"),
-  "files": require("./files")
+  "files": require("./files"),
+  "collaborators": require("./collaborators")
 };
