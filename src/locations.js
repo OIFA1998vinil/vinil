@@ -8,4 +8,6 @@ export const ADMIN_REQUESTS_USERS = () => '/admin/solicitudes/usuarios';
 export const ADD_SONG = () => '/admin/canciones/agregar';
 export const SIGN_UP = () => '/registro';
 export const ADMIN_USERS = () => '/admin/users';
+export const ADMIN_COLLABORATORS = () => '/admin/colaboradores';
+export const ADMIN_ADD_COLLABORATORS = () => '/admin/colaboradores/agregar';
 export const COLLAB_SIGN_IN = () => '/colaboradores/iniciar-sesion';

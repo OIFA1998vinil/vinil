@@ -28,7 +28,7 @@ router.post("/sign-out", (req, res) => {
   resolve(req, res)(null, true);
 });
 
-router.post("/create", authorize(ROLES.ADMIN), (req, res) => {
+router.post("/insert", authorize(ROLES.ADMIN), (req, res) => {
   const user = req.body;
   createCollaborator(user, resolve(req, res));
 });

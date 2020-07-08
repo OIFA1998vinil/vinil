@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
 import useStyles from "../shared/styles/forms";
-import "./styles.css";
 import { useForm } from 'react-hook-form';
 import { post } from 'axios';
 import { SERVER_API_URL } from '../../settings';
@@ -12,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
-import { ADMIN_SONGS } from '../../locations';
+import { ADMIN_COLLABORATORS } from '../../locations';
 
 export default function AdminAddCollaborator() {
   const classes = useStyles();
@@ -25,7 +24,7 @@ export default function AdminAddCollaborator() {
 
   const exit = () => {
     setSuccess(false);
-    history.push(ADMIN_SONGS());
+    history.push(ADMIN_COLLABORATORS());
   };
 
   const cleanError = () => {
@@ -70,7 +69,7 @@ export default function AdminAddCollaborator() {
                     fullWidth
                   />
                 </div>
-                <div>
+                <div className={classes.marginTop}>
                   <TextField
                     label="Nombre"
                     name="name"
@@ -81,7 +80,7 @@ export default function AdminAddCollaborator() {
                     fullWidth
                   />
                 </div>
-                <div>
+                <div className={classes.marginTop}>
                   <TextField
                     label="Apellido"
                     name="lastName"
