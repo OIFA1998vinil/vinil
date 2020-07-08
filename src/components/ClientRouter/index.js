@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { HOME_PAGE, NOT_FOUND, ADMIN_SIGN_IN, SIGN_IN, ADMIN_LANDING, ADD_SONG, ADMIN_SONGS, SIGN_UP, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_ADD_COLLABORATORS, ADMIN_COLLABORATORS } from '../../locations';
+import { HOME_PAGE, NOT_FOUND, ADMIN_SIGN_IN, SIGN_IN, ADMIN_LANDING, ADD_SONG, ADMIN_SONGS, SIGN_UP, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_ADD_COLLABORATORS, ADMIN_COLLABORATORS, COLLAB_LANDING } from '../../locations';
 import Loading from "../Loading";
 import PrivateRoute from "./components/PrivateRoute";
-import { ADMIN, USER } from "../../constants/roles";
+import { ADMIN, USER, COLLABORATOR } from "../../constants/roles";
 
 const NotFoundPage = lazy(() => import("../NotFoundPage"));
 const AdminSignInPage = lazy(() => import("../AdminSignInPage"));
@@ -18,6 +18,7 @@ const AdminUsers = lazy(() => import("../AdminUsers"));
 const CollabSignInPage = lazy(() => import("../CollabSignInPage"));
 const AdminAddCollaborator = lazy(() => import("../AdminAddCollaborator"));
 const AdminCollaborators = lazy(() => import("../AdminCollaborators"));
+const CollabLandingPage = lazy(() => import("../CollabLandingPage"));
 
 export default function ClientRouter() {
   return (
@@ -36,6 +37,7 @@ export default function ClientRouter() {
         <PrivateRoute exact path={ADMIN_USERS()} component={AdminUsers} roles={[ADMIN]} redirect={ADMIN_SIGN_IN()} />
         <PrivateRoute exact path={ADMIN_ADD_COLLABORATORS()} component={AdminAddCollaborator} roles={[ADMIN]} redirect={ADMIN_SIGN_IN()} />
         <PrivateRoute exact path={ADMIN_COLLABORATORS()} component={AdminCollaborators} roles={[ADMIN]} redirect={ADMIN_SIGN_IN()} />
+        <PrivateRoute exact path={COLLAB_LANDING()} component={CollabLandingPage} roles={[COLLABORATOR]} redirect={COLLAB_SIGN_IN()} />
         <Route path="*">
           <Redirect to="/404" />
         </Route>

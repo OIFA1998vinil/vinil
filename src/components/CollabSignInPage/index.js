@@ -15,9 +15,9 @@ import { selectAuth } from '../../redux/selectors';
 import { COLLABORATOR } from '../../constants/roles';
 import { signIn } from '../../redux/actions';
 import { Redirect } from 'react-router-dom';
-import { ADMIN_LANDING } from '../../locations';
+import { COLLAB_LANDING } from '../../locations';
 
-export default function ColabSignInPage() {
+export default function CollabSignInPage() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth(COLLABORATOR));
   const classes = useStyles();
@@ -41,14 +41,14 @@ export default function ColabSignInPage() {
 
   const onSubmit = (credentials) => {
     setLoading(true);
-    post(`${API_URL}api/v1/colaborators/sign-in`, credentials, { withCredentials: true })
+    post(`${API_URL}api/v1/collaborators/sign-in`, credentials, { withCredentials: true })
       .then((response) => onSuccess(response.data.result))
       .catch(error => onFail(error.response?.data?.error || 'Hubo un error de conexión'));
   };
 
 
   if (!!auth) {
-    return <Redirect to={ADMIN_LANDING()} />
+    return <Redirect to={COLLAB_LANDING()} />
   }
 
   return (

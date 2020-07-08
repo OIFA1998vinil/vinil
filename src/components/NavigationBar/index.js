@@ -7,7 +7,7 @@ import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button }
 import Drawer from '@material-ui/core/Drawer';
 import VinilIcon from "@material-ui/icons/Radio";
 import { Link } from 'react-router-dom';
-import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_COLLABORATORS, ADMIN_ADD_COLLABORATORS } from '../../locations';
+import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_COLLABORATORS, ADMIN_ADD_COLLABORATORS, COLLAB_LANDING } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -128,6 +128,7 @@ export default function NavigationBar() {
               <ListItem button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</ListItem>
             }
           </List>
+          <Divider />
           <List subheader={
             <ListSubheader>
               Colaboradores
@@ -135,7 +136,7 @@ export default function NavigationBar() {
           }>
             {collabAuth ?
               <>
-                <ListItem button component={Link} to={ADMIN_LANDING()} color="inherit">Inicio</ListItem>
+                <ListItem button component={Link} to={COLLAB_LANDING()} color="inherit">Inicio</ListItem>
                 <ListItem button color="inherit" onClick={onColabSignOutClick} disabled={isCollabSigningOut}>{isCollabSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
               </>
               :

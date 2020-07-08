@@ -11,3 +11,4 @@ export const ADMIN_USERS = () => '/admin/users';
 export const ADMIN_COLLABORATORS = () => '/admin/colaboradores';
 export const ADMIN_ADD_COLLABORATORS = () => '/admin/colaboradores/agregar';
 export const COLLAB_SIGN_IN = () => '/colaboradores/iniciar-sesion';
+export const COLLAB_LANDING = () => '/colaboradores';
