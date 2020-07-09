@@ -14,8 +14,7 @@ function discardAction(actionId, callback) {
 }
 
 function stageInsertSong(collaboratorId, data, callback) {
-  const song = new Song(data);
-  const action = new Action({ type: INSERT_SONG, collaborator: collaboratorId, payload: { song: song.toObject() } });
+  const action = new Action({ type: INSERT_SONG, collaborator: collaboratorId, payload: { song: data } });
   action.save().then((doc) => callback(null, doc))
     .catch(err => callback(exception(err)))
 }

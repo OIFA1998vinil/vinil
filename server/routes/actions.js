@@ -5,7 +5,7 @@ const resolve = require("./../api/resolve");
 const ROLES = require("./../constants/roles");
 const { authorize } = require("./../security/auth");
 const { stageInsertSong, commitInsertSong, discardInsertSong, stagedSongs, stagedSongsByCollaboratorId } = require('../services/actions');
-const { upload } = require('../services/drive');
+const upload = require('../middlewares/upload');
 const drive = require("../services/drive")
 const exception = require('../errors/exception');
 
@@ -22,7 +22,7 @@ router.post("/stage/insert-song", authorize(ROLES.COLLABORATOR), upload.fields([
     promisify(drive.upload)(songFile.path)
   ])
     .then(([thumbnail, source]) => {
-      stageInsertSong(_id, { ...data, thumbnail, source }, (err, action) => {
+      stageInsertSong(_id, { ...data, genres: [data.genres], thumbnail, source }, (err, action) => {
         resolve(req, res)(err, action);
         fs.unlink(thumbnailFile.path);
         fs.unlink(songFile.path);
