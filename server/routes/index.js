@@ -3,5 +3,6 @@ module.exports = {
   "users": require("./users"),
   "songs": require("./songs"),
   "files": require("./files"),
-  "collaborators": require("./collaborators")
+  "collaborators": require("./collaborators"),
+  "actions": require("./actions"),
 };
