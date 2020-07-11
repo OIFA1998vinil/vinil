@@ -3,11 +3,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useStyles from "./styles";
-import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button } from '@material-ui/core';
+import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button, ListItemIcon, ListItemText } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import VinilIcon from "@material-ui/icons/Radio";
 import { Link } from 'react-router-dom';
-import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_COLLABORATORS, ADMIN_ADD_COLLABORATORS, COLLAB_LANDING, COLLAB_ADD_SONG, COLLAB_PENDING_SONGS, ADMIN_PENDING_SONGS } from '../../locations';
+import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_COLLABORATORS, ADMIN_ADD_COLLABORATORS, COLLAB_LANDING } from '../../locations';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,18 @@ import { signOut } from '../../redux/actions';
 import { ADMIN, USER, COLLABORATOR } from '../../constants/roles';
 import { selectAuth } from '../../redux/selectors';
 import { API_URL } from '../../settings';
+import HomeIcon from "@material-ui/icons/Home";
+import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import SignOutIcon from "@material-ui/icons/ExitToApp";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+import GroupIcon from "@material-ui/icons/Group";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import ContactsIcon from "@material-ui/icons/Contacts";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+
 
 export default function NavigationBar() {
   const classes = useStyles();
@@ -100,11 +112,26 @@ export default function NavigationBar() {
             {
               userAuth ?
                 <>
-                  <ListItem button component={Link} to={HOME_PAGE()} color="inherit">Inicio</ListItem>
-                  <ListItem button color="inherit" onClick={onSignOutClick} disabled={isSigningOut}>Cerrar Sesión</ListItem>
+                  <ListItem button component={Link} to={HOME_PAGE()} color="inherit">
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Inicio" />
+                  </ListItem>
+                  <ListItem button color="inherit" onClick={onSignOutClick} disabled={isSigningOut}>
+                    <ListItemIcon>
+                      <SignOutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Cerrar Sesión" />
+                  </ListItem>
                 </>
                 :
-                <ListItem button component={Link} to={SIGN_IN()} color="inherit">Iniciar Sesión</ListItem>
+                <ListItem button component={Link} to={SIGN_IN()} color="inherit">
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Iniciar Sesión" />
+                </ListItem>
             }
           </List>
           <Divider />
@@ -115,18 +142,62 @@ export default function NavigationBar() {
           }>
             {adminAuth ?
               <>
-                <ListItem button component={Link} to={ADMIN_LANDING()} color="inherit">Inicio</ListItem>
-                <ListItem button component={Link} to={ADMIN_SONGS()} color="inherit">Canciones</ListItem>
-                <ListItem button component={Link} to={ADD_SONG()} color="inherit">Agregar Canción</ListItem>
-                <ListItem button component={Link} to={ADMIN_USERS()} color="inherit">Usuarios</ListItem>
-                <ListItem button component={Link} to={ADMIN_REQUESTS_USERS()} color="inherit">Solicitudes de Usuarios</ListItem>
-                <ListItem button component={Link} to={ADMIN_COLLABORATORS()} color="inherit">Colaboradores</ListItem>
-                <ListItem button component={Link} to={ADMIN_ADD_COLLABORATORS()} color="inherit">Agregar Colaborador</ListItem>
-                <ListItem button component={Link} to={ADMIN_PENDING_SONGS()} color="inherit">Canciones Pendientes</ListItem>
-                <ListItem button color="inherit" onClick={onAdminSignOutClick} disabled={isAdminSigningOut}>{isAdminSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
+                <ListItem button component={Link} to={ADMIN_LANDING()} color="inherit">
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Inicio" />
+                </ListItem>
+                <ListItem button component={Link} to={ADMIN_SONGS()} color="inherit">
+                  <ListItemIcon>
+                    <LibraryMusicIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Canciones" />
+                </ListItem>
+                <ListItem button component={Link} to={ADD_SONG()} color="inherit">
+                  <ListItemIcon>
+                    <LibraryAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agregar Canción" />
+                </ListItem>
+                <ListItem button component={Link} to={ADMIN_USERS()} color="inherit">
+                  <ListItemIcon>
+                    <GroupIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Usuarios" />
+                </ListItem>
+                <ListItem button component={Link} to={ADMIN_REQUESTS_USERS()} color="inherit">
+                  <ListItemIcon>
+                    <GroupAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Solicitudes de Usuarios" />
+                </ListItem>
+                <ListItem button component={Link} to={ADMIN_COLLABORATORS()} color="inherit">
+                  <ListItemIcon>
+                    <ContactsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Colaboradores" />
+                </ListItem>
+                <ListItem button component={Link} to={ADMIN_ADD_COLLABORATORS()} color="inherit">
+                  <ListItemIcon>
+                    <PersonAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agregar Colaborador" />
+                </ListItem>
+                <ListItem button color="inherit" onClick={onAdminSignOutClick} disabled={isAdminSigningOut}> <ListItemIcon>
+                  <SignOutIcon />
+                </ListItemIcon>{isAdminSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}
+                </ListItem>
               </>
               :
-              <ListItem button component={Link} to={ADMIN_SIGN_IN()} color="inherit">Admin Iniciar Sesión</ListItem>
+              <ListItem button component={Link} to={ADMIN_SIGN_IN()} color="inherit">
+                <ListItemIcon>
+                  <VerifiedUserIcon />
+                </ListItemIcon>
+                <ListItemText primary="Admin Iniciar Sesión" />
+              </ListItem>
+
+
             }
           </List>
           <Divider />
@@ -138,12 +209,15 @@ export default function NavigationBar() {
             {collabAuth ?
               <>
                 <ListItem button component={Link} to={COLLAB_LANDING()} color="inherit">Inicio</ListItem>
-                <ListItem button component={Link} to={COLLAB_ADD_SONG()} color="inherit">Agregar Canción</ListItem>
-                <ListItem button component={Link} to={COLLAB_PENDING_SONGS()} color="inherit">Canciones Pendientes</ListItem>
                 <ListItem button color="inherit" onClick={onColabSignOutClick} disabled={isCollabSigningOut}>{isCollabSigningOut ? "Cerrando sesión..." : "Cerrar Sesión"}</ListItem>
               </>
               :
-              <ListItem button component={Link} to={COLLAB_SIGN_IN()} color="inherit">Colab Iniciar Sesión</ListItem>
+              <ListItem button component={Link} to={COLLAB_SIGN_IN()} color="inherit">
+                <ListItemIcon>
+                  <SupervisedUserCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Colab Iniciar Sesión" />
+              </ListItem>
             }
           </List>
         </div>
