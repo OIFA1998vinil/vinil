@@ -18,6 +18,10 @@ export default makeStyles((theme) => ({
   },
   center: {
     textAlign: 'center'
+  },
+  colaborador: {
+    textAlign: 'center',
+    float: 'bottom'
   }
 
 }));

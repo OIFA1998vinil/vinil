@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -95,18 +96,21 @@ export default function NavigationBar() {
             <IconButton onClick={() => setShowMenu(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h5">
-              <VinilIcon /> Vinil
-            </Typography>
+            <img src={process.env.PUBLIC_URL + '/vinilLogo.png'} className={classes.imagen} />
+            <Typography className={classes.title} variant="h5"> Vinil</Typography>
+
+
           </Toolbar>
         </AppBar>
       </div>
       <Drawer open={showMenu} onClose={() => setShowMenu(false)}>
         <div className={classes.menu} onClick={() => setShowMenu(false)}>
           <Container>
-            <Typography className={clsx(classes.title, classes.titleMenu)} variant="h5">
-              <VinilIcon /> Vinil
-            </Typography>
+            <div className={classes.divLogo}>
+              <img src={process.env.PUBLIC_URL + '/vinilLogo.png'} className={classes.imagen2} />
+            </div>
+            <br></br>
+            <Typography className={clsx(classes.title, classes.titleMenu)} variant="h5">Vinil</Typography>
           </Container>
           <List>
             {

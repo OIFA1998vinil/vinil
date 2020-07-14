@@ -14,7 +14,7 @@ export default function CollabLandingPage() {
       <div className={classes.root} >
         <GridList cellHeight={190} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-            <Typography className={classes.center} variant="h4">
+            <Typography className={classes.colaborador} variant="h4">
               Menú Principal Colaborador
             </Typography>
           </GridListTile>
