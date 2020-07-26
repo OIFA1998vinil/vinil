@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
   title: {
     fontWeight: 'bold',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   titleMenu: {
     marginTop: "20px",
@@ -21,6 +21,24 @@ export default makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   menu: {
-    width: "250px"
+    width: "250px",
+    marginBottom: "20px"
+  },
+  imagen: {
+    width: 32,
+    height: 32,
+    margin: 5
+  },
+  imagen2: {
+    width: 60,
+    height: 60,
+    margin: 10
+  },
+  divLogo: {
+    position: "absolute",
+    right: "20 px",
+    top: "5px"
+
   }
+
 }));
