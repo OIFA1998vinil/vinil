@@ -1,7 +1,23 @@
+/**
+ * Collaborators Service
+ * @module server/services/collaborators
+ */
+
 const exception = require("./../errors/exception");
 const Collaborator = require("./../models/Collaborator");
 const { sendMail } = require("./mail");
 
+/**
+ * @callback collaboratorResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object} collaborator Collaborator object
+ */
+
+/**
+ * Creates a collaborator
+ * @param {Object} data collaborator data
+ * @param {collaboratorResultCallback} callback Callback
+ */
 function createCollaborator(data, callback) {
   const collaborator = new Collaborator({ ...data, status: 'active', password: new Date().getTime().toString(32) });
   collaborator.save()
@@ -23,6 +39,13 @@ function createCollaborator(data, callback) {
     });
 }
 
+/**
+ * Validates collaborator credentials
+ * @param {Object} data Credentials data
+ * @param {String} data.email Credentials email
+ * @param {String} data.password Credentials password
+ * @param {collaboratorResultCallback} callback Callback
+ */
 function validateCollaboratorCredentials(data, callback) {
   const collaborator = new Collaborator(data);
   Collaborator.findOne({ email: collaborator.email }, (error, result) => {
@@ -47,7 +70,16 @@ function validateCollaboratorCredentials(data, callback) {
   });
 }
 
+/**
+ * @callback collaboratorsResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object[]} collaborators Collaborators list
+ */
 
+/**
+ * Retrieves all collaborators from database
+ * @param {collaboratorsResultCallback} callback Callback
+ */
 function findAllActiveCollaborators(callback) {
   Collaborator.find({ status: "active" }, '-password', (err, requests) => {
     if (err) {
@@ -58,6 +90,17 @@ function findAllActiveCollaborators(callback) {
   })
 }
 
+/**
+ * @callback boolResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Boolean} wasSuccess Flag to know if execution succeded
+ */
+
+/**
+ * Deactivates a collaborator
+ * @param {String} id Collaborator ID
+ * @param {boolResultCallback} callback Callback
+ */
 function deactivateCollaborator(id, callback) {
   Collaborator.updateOne({ _id: id }, { status: "inactive" }, (err) => {
     if (err) {

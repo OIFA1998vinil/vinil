@@ -1,0 +1,27 @@
+{
+  "plugins": [],
+  "recurseDepth": 10,
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc",
+      "closure"
+    ]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": true
+  },
+  "docdash": {
+    "meta": {
+      "title": "Vinil Docs",
+      "description": "Vinil OIFA official documentation"
+    },
+    "search": true
+  }
+}

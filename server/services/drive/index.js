@@ -1,3 +1,8 @@
+/**
+ * Google Drive service
+ * @module server/services/drive
+ */
+
 const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
@@ -14,9 +19,17 @@ const SCOPES = [
 // time.
 const TOKEN_PATH = path.join(__dirname + '/token.json');
 
+
+
 /**
- * 
- * @param {(error: Error, drive : drive_v3 ) => void} callback
+ * @callback driveResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {google.drive_v3} drive Google Drive instance
+ */
+
+/**
+ * Connects to Google Drive
+ * @param {driveResultCallback} callback Callback
  */
 function connect(callback) {
   // Load client secrets from a local file.
@@ -30,10 +43,16 @@ function connect(callback) {
 }
 
 /**
+ * @callback oAuthResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {google.auth.OAuth2} oAuth2Client OAuth2 instance
+ */
+
+/**
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
  * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
+ * @param {oAuthResultCallback} callback The callback to call with the authorized client.
  */
 function authorize(credentials, callback) {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -51,7 +70,7 @@ function authorize(credentials, callback) {
  * Get and store new token after prompting for user authorization, and then
  * execute the given callback with the authorized OAuth2 client.
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
+ * @param {oAuthResultCallback} callback The callback for the authorized client.
  */
 function getAccessToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({ access_type: 'offline', scope: SCOPES });
@@ -76,7 +95,11 @@ function getAccessToken(oAuth2Client, callback) {
   });
 }
 
-
+/**
+ * Finds a proper Mime type according to the file name
+ * @param {String} filename File name
+ * @returns {String} mime type
+ */
 function getMime(filename) {
   const extension = filename.substring(filename.lastIndexOf(".") + 1);
   switch (extension) {
@@ -92,6 +115,17 @@ function getMime(filename) {
   }
 }
 
+/**
+ * @callback fileResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {String} id File id
+ */
+
+/**
+ * Uploads a file from the disk using it's path to Google Drive
+ * @param {String} path File path 
+ * @param {fileResultCallback} callback Callback
+ */
 function upload(path, callback) {
   connect((err, drive) => {
     if (err) {
@@ -113,17 +147,17 @@ function upload(path, callback) {
   });
 }
 
-// function list(callback) {
-//   connect(drive => {
-//     drive.files.list({
-//       pageSize: 10,
-//       fields: 'nextPageToken, files(id, name)',
-//     }, (err, res) => {
-//       callback(err, res.data.files);
-//     });
-//   });
-// }
+/**
+ * @callback onlyErrorCallback
+ * @param {Error} error Any error occurred during execution
+ */
 
+/**
+ * Gets a file from Google Drive and pipes it's data using an streameable object (most likely an Express response object)
+ * @param {String} id File ID
+ * @param {Object} stream Streameable object
+ * @param {onlyErrorCallback} callback Callback
+ */
 function get(id, stream, callback) {
   connect((err, drive) => {
     if (err) {
@@ -146,6 +180,11 @@ function get(id, stream, callback) {
   })
 }
 
+/**
+ * Removes a file from Google Drive using it's ID
+ * @param {String} id File id
+ * @param {onlyErrorCallback} callback Callback
+ */
 function remove(id, callback = () => { }) {
   connect((err, drive) => {
     if (err) {
@@ -157,7 +196,6 @@ function remove(id, callback = () => { }) {
     }
   })
 }
-
 
 module.exports = {
   upload,

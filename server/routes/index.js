@@ -1,3 +1,7 @@
+/**
+ * Registers the request handlers
+ * @module server/routes
+ */
 module.exports = {
   "admin": require("./admin"),
   "users": require("./users"),

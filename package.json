@@ -36,7 +36,8 @@
   "scripts": {
     "api": "node server/index.js",
     "web": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "docs": "jsdoc . -r -c jsdoc.config.json -d docs -R README.md -P package.json -t ./node_modules/docdash"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,5 +53,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "docdash": "^1.2.0",
+    "jsdoc": "^3.6.5"
   }
 }

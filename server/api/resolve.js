@@ -1,3 +1,13 @@
+/**
+ * Resolves an express request
+ * @module server/api/resolve
+ */
+
+/**
+ * Resolves an express request
+ * @param {object} req Express request
+ * @param {object} res Express response
+ */
 function resolve(req, res) {
   let called = false;
   return (error, data) => {
@@ -12,4 +22,5 @@ function resolve(req, res) {
     }
   };
 }
+
 module.exports = resolve;

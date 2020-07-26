@@ -1,7 +1,23 @@
+/**
+ * Songs Service
+ * @module server/services/song
+ */
+
 const exception = require("./../errors/exception");
 const Song = require("./../models/Song");
 const { remove } = require("./drive");
 
+/**
+ * @callback songResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object} song Song object
+ */
+
+/**
+ * Inserts a song
+ * @param {Object} data Song data
+ * @param {songResultCallback} callback Callback
+ */
 function insertSong(data, callback) {
   const song = new Song(data);
   song.save()
@@ -9,6 +25,16 @@ function insertSong(data, callback) {
     .catch(error => callback(exception(error)));
 }
 
+/**
+ * @callback songsResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object[]} songs Songs list
+ */
+
+/**
+ * Selects all songs
+ * @param {songsResultCallback} callback
+ */
 function selectAllSongs(callback) {
   Song.find({}, (error, results) => {
     if (error) {
@@ -19,6 +45,17 @@ function selectAllSongs(callback) {
   });
 }
 
+/**
+ * @callback booleanResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Boolean} wasSuccess Flag to know if the execution succeded
+ */
+
+/**
+ * Deletes a song from database using its ID
+ * @param {String} id Song ID
+ * @param {booleanResultCallback} callback Callback
+ */
 function deleteSong(id, callback) {
   Song.findById(id, (error, result) => {
     if (error) {

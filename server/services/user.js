@@ -1,7 +1,23 @@
+/**
+ * Songs Service
+ * @module server/services/user
+ */
+
 const exception = require("./../errors/exception");
 const User = require("./../models/User");
 const { sendMail } = require("./mail");
 
+/**
+ * @callback userResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object} user User object
+ */
+
+/**
+ * Inserts an user in database
+ * @param {Object} data User data
+ * @param {userResultCallback} callback
+ */
 function createUser(data, callback) {
   const user = new User({ ...data, status: 'pending' });
   user.save()
@@ -17,6 +33,13 @@ function createUser(data, callback) {
     });
 }
 
+/**
+ * Validates user credentials
+ * @param {Object} data Credentials data
+ * @param {String} data.email Credentials email
+ * @param {String} data.password Credentials password
+ * @param {userResultCallback} callback Callback
+ */
 function validateUserCredentials(data, callback) {
   const user = new User(data);
   User.findOne({ email: user.email }, (error, result) => {
@@ -41,6 +64,16 @@ function validateUserCredentials(data, callback) {
   });
 }
 
+/**
+ * @callback usersResultCallback
+ * @param {Error} error Any error occurred during execution
+ * @param {Object[]} user Users list
+ */
+
+/**
+ * Retrieves all user with status pending from database
+ * @param {usersResultCallback} callback Callback
+ */
 function pendingUsers(callback) {
   User.find({ status: "pending" }, '-password', (err, requests) => {
     if (err) {
@@ -51,6 +84,10 @@ function pendingUsers(callback) {
   })
 }
 
+/**
+ * Retrieves all user with status active from database
+ * @param {usersResultCallback} callback Callback
+ */
 function activeUsers(callback) {
   User.find({ status: "approved" }, '-password', (err, requests) => {
     if (err) {
@@ -61,6 +98,16 @@ function activeUsers(callback) {
   })
 }
 
+/**
+ * @callback onlyErrorCallback
+ * @param {Error} error Any error occurred during execution
+ */
+
+/**
+ * Changes the status of an user to approved
+ * @param {String} id User id
+ * @param {onlyErrorCallback} callback Callback
+ */
 function acceptUser(id, callback) {
   User.updateOne({ _id: id }, { status: "approved" }, (err) => {
     if (err) {
@@ -81,6 +128,11 @@ function acceptUser(id, callback) {
   });
 }
 
+/**
+ * Removes an user
+ * @param {String} id User id
+ * @param {onlyErrorCallback} callback Callback
+ */
 function rejectUser(id, callback) {
   User.deleteOne({ _id: id }, (err) => {
     if (err) {

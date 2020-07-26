@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>server/index.js - Vinil Docs</title>
+    
+    <meta name="description" content="Vinil OIFA official documentation" />
+    
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-server_models_Action-Action.html">Action</a></li><li><a href="module-server_models_Admin-Admin.html">Admin</a></li><li><a href="module-server_models_Collaborator-Collaborator.html">Collaborator</a></li><li><a href="module-server_models_Song-Song.html">Song</a></li><li><a href="module-server_models_User-User.html">User</a></li></ul><h3>Modules</h3><ul><li><a href="module-server.html">server</a></li><li><a href="module-server_api_resolve.html">server/api/resolve</a><ul class='methods'><li data-type='method'><a href="module-server_api_resolve.html#~resolve">resolve</a></li></ul></li><li><a href="module-server_constants_roles.html">server/constants/roles</a></li><li><a href="module-server_errors_exception.html">server/errors/exception</a><ul class='methods'><li data-type='method'><a href="module-server_errors_exception.html#~exception">exception</a></li></ul></li><li><a href="module-server_middlewares_upload.html">server/middlewares/upload</a><ul class='methods'><li data-type='method'><a href="module-server_middlewares_upload.html#~upload">upload</a></li></ul></li><li><a href="module-server_models_Action.html">server/models/Action</a></li><li><a href="module-server_models_Admin.html">server/models/Admin</a></li><li><a href="module-server_models_Collaborator.html">server/models/Collaborator</a></li><li><a href="module-server_models_Song.html">server/models/Song</a></li><li><a href="module-server_models_User.html">server/models/User</a></li><li><a href="module-server_routes.html">server/routes</a></li><li><a href="module-server_routes_actions.html">server/routes/actions</a></li><li><a href="module-server_routes_admin.html">server/routes/admin</a></li><li><a href="module-server_routes_collaborators.html">server/routes/collaborators</a></li><li><a href="module-server_routes_files.html">server/routes/files</a></li><li><a href="module-server_routes_songs.html">server/routes/songs</a></li><li><a href="module-server_routes_users.html">server/routes/users</a></li><li><a href="module-server_security_auth.html">server/security/auth</a><ul class='methods'><li data-type='method'><a href="module-server_security_auth.html#~authenticate">authenticate</a></li><li data-type='method'><a href="module-server_security_auth.html#~authorize">authorize</a></li><li data-type='method'><a href="module-server_security_auth.html#~deauthenticate">deauthenticate</a></li></ul></li><li><a href="module-server_security_jwt.html">server/security/jwt</a><ul class='methods'><li data-type='method'><a href="module-server_security_jwt.html#~generate">generate</a></li><li data-type='method'><a href="module-server_security_jwt.html#~verify">verify</a></li></ul></li><li><a href="module-server_services_actions.html">server/services/actions</a><ul class='methods'><li data-type='method'><a href="module-server_services_actions.html#~commitInsertSong">commitInsertSong</a></li><li data-type='method'><a href="module-server_services_actions.html#~discardAction">discardAction</a></li><li data-type='method'><a href="module-server_services_actions.html#~discardInsertSong">discardInsertSong</a></li><li data-type='method'><a href="module-server_services_actions.html#~stagedSongs">stagedSongs</a></li><li data-type='method'><a href="module-server_services_actions.html#~stagedSongsByCollaboratorId">stagedSongsByCollaboratorId</a></li><li data-type='method'><a href="module-server_services_actions.html#~stageInsertSong">stageInsertSong</a></li></ul></li><li><a href="module-server_services_actions_actions.html">server/services/actions/actions</a></li><li><a href="module-server_services_admin.html">server/services/admin</a><ul class='methods'><li data-type='method'><a href="module-server_services_admin.html#~validateAdminCredentials">validateAdminCredentials</a></li></ul></li><li><a href="module-server_services_collaborators.html">server/services/collaborators</a><ul class='methods'><li data-type='method'><a href="module-server_services_collaborators.html#~createCollaborator">createCollaborator</a></li><li data-type='method'><a href="module-server_services_collaborators.html#~deactivateCollaborator">deactivateCollaborator</a></li><li data-type='method'><a href="module-server_services_collaborators.html#~findAllActiveCollaborators">findAllActiveCollaborators</a></li><li data-type='method'><a href="module-server_services_collaborators.html#~validateCollaboratorCredentials">validateCollaboratorCredentials</a></li></ul></li><li><a href="module-server_services_drive.html">server/services/drive</a><ul class='methods'><li data-type='method'><a href="module-server_services_drive.html#~authorize">authorize</a></li><li data-type='method'><a href="module-server_services_drive.html#~connect">connect</a></li><li data-type='method'><a href="module-server_services_drive.html#~get">get</a></li><li data-type='method'><a href="module-server_services_drive.html#~getAccessToken">getAccessToken</a></li><li data-type='method'><a href="module-server_services_drive.html#~getMime">getMime</a></li><li data-type='method'><a href="module-server_services_drive.html#~remove">remove</a></li><li data-type='method'><a href="module-server_services_drive.html#~upload">upload</a></li></ul></li><li><a href="module-server_services_mail.html">server/services/mail</a><ul class='methods'><li data-type='method'><a href="module-server_services_mail.html#~createTemplate">createTemplate</a></li><li data-type='method'><a href="module-server_services_mail.html#~sendMail">sendMail</a></li></ul></li><li><a href="module-server_services_song.html">server/services/song</a><ul class='methods'><li data-type='method'><a href="module-server_services_song.html#~deleteSong">deleteSong</a></li><li data-type='method'><a href="module-server_services_song.html#~insertSong">insertSong</a></li><li data-type='method'><a href="module-server_services_song.html#~selectAllSongs">selectAllSongs</a></li></ul></li><li><a href="module-server_services_user.html">server/services/user</a><ul class='methods'><li data-type='method'><a href="module-server_services_user.html#~acceptUser">acceptUser</a></li><li data-type='method'><a href="module-server_services_user.html#~activeUsers">activeUsers</a></li><li data-type='method'><a href="module-server_services_user.html#~createUser">createUser</a></li><li data-type='method'><a href="module-server_services_user.html#~pendingUsers">pendingUsers</a></li><li data-type='method'><a href="module-server_services_user.html#~rejectUser">rejectUser</a></li><li data-type='method'><a href="module-server_services_user.html#~validateUserCredentials">validateUserCredentials</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">server/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Server index module
+ * @module server
+ */
+const express = require("express");
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require("path");
+const cookieParser = require('cookie-parser');
+const routes = require("./routes/index");
+const app = express();
+mongoose.connect('mongodb+srv://admin:adminulacitoifapassword@cluster-fz8qx.mongodb.net/vinil?retryWrites=true&amp;w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+app.use(cors({ origin: /[localhost:3000|http://192\.168\.0\.9:3000]/, methods: ['GET', 'PUT', 'POST', 'DELETE'], credentials: true }));
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("build"));
+Object.entries(routes).forEach(([path, router]) => app.use(`/api/v1/${path}`, router));
+app.get('*', (_, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
+app.use((err, req, res, next) => res.status(500).send({ error: err }));
+app.listen(process.env.PORT || 8080);</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Sun Jul 26 2020 00:01:54 GMT-0600 (Central Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
