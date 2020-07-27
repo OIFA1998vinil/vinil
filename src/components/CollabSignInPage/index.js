@@ -1,3 +1,8 @@
+/**
+ * CollabSignInPage component module
+ * @module client/components/CollabSignInPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -17,6 +22,11 @@ import { signIn } from '../../redux/actions';
 import { Redirect } from 'react-router-dom';
 import { COLLAB_LANDING } from '../../locations';
 
+/**
+ * Collab sign in page component
+ * @function CollabSignInPage
+ * @returns {JSX.Element} CollabSignInPage component template
+ */
 export default function CollabSignInPage() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth(COLLABORATOR));
@@ -26,19 +36,38 @@ export default function CollabSignInPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Hides error modak
+   * @function cleanError
+   */
   const cleanError = () => {
     setError(null);
   };
 
-  const onSuccess = (colaborators) => {
-    dispatch(signIn(COLLABORATOR, colaborators));
+  /**
+   * Signs in a collaborator
+   * @function onSuccess
+   * @param {Object} colaborator
+   */
+  const onSuccess = (colaborator) => {
+    dispatch(signIn(COLLABORATOR, colaborator));
   };
 
+  /**
+   * Displays error modal
+   * @function onFail
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event and sends collaborator credentials to be validated
+   * @function onSubmit
+   * @param {Object} credentials Collaborator credentials
+   */
   const onSubmit = (credentials) => {
     setLoading(true);
     post(`${API_URL}api/v1/collaborators/sign-in`, credentials, { withCredentials: true })

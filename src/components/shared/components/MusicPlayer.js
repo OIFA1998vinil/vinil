@@ -1,4 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
+/**
+ * MusicPlayer component module
+ * @module client/components/shared/components/MusicPlayer
+ */
+
 import React, { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { makeStyles } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
@@ -43,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Music player component
+ * @function MusicPlayer
+ * @param {Object} props.song Song object to play
+ * @returns {JSX.Element} MusicPlayer component template
+ */
 export default function MusicPlayer({ song }) {
   const classes = useStyles();
   const [src, setSource] = useState();
@@ -59,25 +71,45 @@ export default function MusicPlayer({ song }) {
     return audio ? ((time / audio.duration) * 100) : 0;
   }, [audio, time]);
 
+  /**
+   * Plays audio
+   * @function play
+   */
   const play = useCallback(() => {
     audioRef.current.play();
     setIsPlaying(true);
   }, [audioRef]);
 
+  /**
+   * Pauses audio
+   * @function pause
+   */
   const pause = useCallback(() => {
     audioRef.current.pause();
     setIsPlaying(false);
   }, [audioRef]);
 
+  /**
+   * Handles audio time update event
+   * @function onTimeUpdate
+   */
   const onTimeUpdate = useCallback(() => {
     setTime(audioRef.current.currentTime);
   }, [audioRef]);
 
+  /**
+   * Handles audio progress change event
+   * @function onProgressChange
+   */
   const onProgressChange = useCallback((_, value) => {
     const currentTime = (value / 100) * audioRef.current.duration;
     audioRef.current.currentTime = currentTime;
   }, [audioRef]);
 
+  /**
+   * Handles song information after is has been loaded
+   * @function loadHandler
+   */
   const loadHandler = useCallback((event) => {
     const request = event.target;
     if (request.status === 200) {
@@ -96,6 +128,10 @@ export default function MusicPlayer({ song }) {
     }
   }, [play, song]);
 
+  /**
+   * Loads song audio
+   * @function loadAudio
+   */
   const loadAudio = useCallback(() => {
     setTime(0);
     setIsLoading(true);
@@ -106,9 +142,21 @@ export default function MusicPlayer({ song }) {
     request.send();
   }, [song, loadHandler])
 
+  /**
+   * Handles stop button click
+   * @function onStop
+   */
   const onStop = () => setIsPlaying(false);
+
+  /**
+   * Handles play button click
+   * @function onPlay
+   */
   const onPlay = () => setIsPlaying(true);
 
+  /**
+   * Plays song property as it changes
+   */
   useEffect(() => {
     if (isPlaying) {
       pause();

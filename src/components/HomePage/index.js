@@ -1,3 +1,8 @@
+/**
+ * HomePage component module
+ * @module client/components/HomePage
+ */
+
 import React, { useEffect, useState, useMemo } from 'react';
 import { Container, Grid, makeStyles, TextField, Typography, Divider } from '@material-ui/core';
 import SongCard from './components/SongCard';
@@ -22,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Shuffles the order of the items in a list
+ * @param {Object[]} array List
+ */
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -34,6 +43,12 @@ function shuffle(array) {
   return array;
 }
 
+
+/**
+ * Home page component
+ * @function HomePage
+ * @returns {JSX.Element} HomePage component template
+ */
 export default function HomePage() {
   const classes = useStyles();
   const [playingSong, setPlayingSong] = useState();
@@ -52,6 +67,10 @@ export default function HomePage() {
   }, [availableSongs, search])
 
 
+  /**
+   * Loads all songs
+   * @function loadSongs
+   */
   const loadSongs = () => {
     setLoadingSongs(true);
     Axios.get(`${SERVER_API_URL}api/v1/songs/all`, { withCredentials: true })
@@ -60,6 +79,9 @@ export default function HomePage() {
       .finally(() => setLoadingSongs(false))
   };
 
+  /**
+   * Loads songs when component did mount
+   */
   useEffect(() => {
     loadSongs();
   }, []);

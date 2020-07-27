@@ -1,3 +1,8 @@
+/**
+ * SignInPage component module
+ * @module client/components/shared/components/SignInPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -18,7 +23,12 @@ import { Redirect, Link } from 'react-router-dom';
 import { HOME_PAGE, SIGN_UP } from '../../locations';
 import clsx from 'clsx';
 
-export default function AdminSignInPage() {
+/**
+ * Sign in page component
+ * @function SignInPage
+ * @returns {JSX.Element} SignInPage component template
+ */
+export default function SignInPage() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth(USER));
   const classes = useStyles();
@@ -27,19 +37,35 @@ export default function AdminSignInPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Hides error modal
+   * @function cleanError
+   */
   const cleanError = () => {
     setError(null);
   };
 
+  /**
+   * Signs in user
+   * @param {Object} user User object
+   */
   const onSuccess = (user) => {
     dispatch(signIn(USER, user));
   };
 
+  /**
+   * Shows error modal
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event and sends credentials to API for validation
+   * @param {Object} credentials User credentials
+   */
   const onSubmit = (credentials) => {
     setLoading(true);
     post(`${API_URL}api/v1/users/sign-in`, credentials, { withCredentials: true })

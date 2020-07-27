@@ -1,3 +1,8 @@
+/**
+ * CollabAddSongPage component module
+ * @module client/components/CollabAddSongPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -16,33 +21,64 @@ import { useHistory } from 'react-router-dom';
 import { COLLAB_PENDING_SONGS } from '../../locations';
 import "./styles.css";
 
+/**
+ * Collab add song page component
+ * @function CollabAddSongPage
+ * @returns {JSX.Element} CollabAddSongPage component template
+ */
 export default function CollabAddSongPage() {
   const classes = useStyles();
   const history = useHistory();
+
+  /**
+   * Use React Hook Form to manage forms see: [React Hook Form documentation]{@link https://react-hook-form.com/get-started}
+   */
   const form = useForm();
 
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Hides success modal and redirects the user to COLLAB_PENDING_SONGS location
+   * @function exit
+   */
   const exit = () => {
     setSuccess(false);
     history.push(COLLAB_PENDING_SONGS());
   };
 
+  /**
+   * Hides error modal
+   * @function cleanError
+   */
   const cleanError = () => {
     setError(null);
   };
 
+  /**
+   * Shows success modal
+   * @function onSuccess
+   */
   const onSuccess = () => {
     setSuccess(true);
   };
 
+  /**
+   * Shows error modal
+   * @function onFail
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Sends song information to the api
+   * @function onSubmit
+   * @param {Object} data Form data
+   */
   const onSubmit = (data) => {
     setLoading(true);
     var formData = new FormData();
@@ -77,8 +113,7 @@ export default function CollabAddSongPage() {
                     error={!!form.errors.title}
                     helperText={form.errors.title?.message}
                     variant="outlined"
-                    fullWidth
-                  />
+                    fullWidth />
                 </div>
                 <div className={classes.marginTop}>
                   <TextField
@@ -100,8 +135,7 @@ export default function CollabAddSongPage() {
                     error={!!form.errors.year}
                     helperText={form.errors.year?.message}
                     variant="outlined"
-                    fullWidth
-                  />
+                    fullWidth />
                 </div>
                 <div className={classes.marginTop}>
                   <Controller
@@ -120,10 +154,8 @@ export default function CollabAddSongPage() {
                         error={!!form.errors.song}
                         legend="Arrastre un archivo .mp3 o haga click aquí para buscarlo"
                         acceptedFiles={['audio/mpeg', 'audio/mp3']}
-                        helperText={form.errors.song?.message}
-                      />
-                    }
-                  />
+                        helperText={form.errors.song?.message} />
+                    } />
                 </div>
                 <div className={classes.marginTop}>
                   <Controller
@@ -142,10 +174,8 @@ export default function CollabAddSongPage() {
                         error={!!form.errors.thumbnail}
                         legend="Arrastre un archivo de imagen (.jpg, .png) o haga click aquí para buscarlo"
                         acceptedFiles={['image/jpeg', 'image/png']}
-                        helperText={form.errors.thumbnail?.message}
-                      />
-                    }
-                  />
+                        helperText={form.errors.thumbnail?.message} />
+                    } />
                 </div>
                 <div className={classes.marginTop}>
                   <Controller
@@ -197,10 +227,8 @@ export default function CollabAddSongPage() {
                           "Cumbia",
                           "Bolero",
                           "Ranchera"
-                        ]}
-                      />
-                    }
-                  />
+                        ]} />
+                    } />
                 </div>
                 <div className={classes.marginTop}>
                   <Button

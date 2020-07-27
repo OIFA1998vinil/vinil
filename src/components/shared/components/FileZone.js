@@ -1,7 +1,24 @@
+/**
+ * FileZone component module
+ * @module client/components/shared/components/FileZone
+ */
+
 import React, { useState } from "react";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { DropzoneArea } from "material-ui-dropzone";
 
+/**
+ * File zone component
+ * @function FileZone
+ * @param {File} props.initialValue File zone initial value
+ * @param {String} props.legend File zone legend
+ * @param {Boolean} props.error Error mode
+ * @param {String} props.label File zone label
+ * @param {String} props.helperText Field helper text
+ * @param {String[]} props.acceptedFiles Mime types accepted for the files
+ * @param {Function} props.onChange On change callback
+ * @returns {JSX.Element} FileZone component template
+ */
 export default function FileZone({ initialValue, legend, error, label, helperText, acceptedFiles, onChange = () => { } }) {
   const [value, setValue] = useState();
   return (

@@ -1,4 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
+/**
+ * CollabPendingSongs component module
+ * @module client/components/CollabPendingSongs
+ */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -23,6 +28,11 @@ import { selectPlayingSong, selectAuth } from '../../redux/selectors';
 import { stopSong, playSong } from '../../redux/actions';
 import { COLLABORATOR } from '../../constants/roles';
 
+/**
+ * Collab pending songs page component
+ * @function CollabPendingSongs
+ * @returns {JSX.Element} CollabPendingSongs component template
+ */
 export default function CollabPendingSongs() {
   const dispatch = useDispatch();
   const collabInfo = useSelector(selectAuth(COLLABORATOR));
@@ -37,12 +47,20 @@ export default function CollabPendingSongs() {
     if (!search) {
       return songs;
     }
+
+    /**
+     * Use fuse to perform searches see: [Fuse]{@link https://fusejs.io/}
+     */
     const fuse = new Fuse(songs, { keys: ["title", "year", "genres"] });
     const result = fuse.search(search);
     return result.map(result => result.item);
   }, [actions, search])
 
 
+  /**
+   * Loads collaborator pending songs
+   * @function
+   */
   const loadSongs = () => {
     setLoading(true);
     axios.get(`${SERVER_API_URL}api/v1/actions/staged/songs/${collabInfo._id}`, { withCredentials: true })
@@ -51,14 +69,27 @@ export default function CollabPendingSongs() {
       .finally(() => setLoading(false))
   };
 
+  /**
+   * Stops the currently playing song
+   * @function stopPlayingSong
+   */
   const stopPlayingSong = () => {
     dispatch(stopSong());
   };
 
+  /**
+   * Plays a song
+   * @function
+   * @param {Object} song Song object
+   */
   const reproduceSong = (song) => () => {
     dispatch(playSong(song));
   };
 
+  /**
+   * Loads collaborator pending songs when component did mount
+   * Stops any song being played when component unmounts
+   */
   useEffect(() => {
     loadSongs();
     return () => {
@@ -67,13 +98,13 @@ export default function CollabPendingSongs() {
   }, [dispatch]);
 
   return (
-    <>
-      <Container>
-        <Typography variant="h4"><LibraryMusicIcon /> Canciones Pendientes</Typography>
-        <br />
-        {loading && <Loading />}
-        {loadError && <Alert severity="error">{loadError}</Alert>}
-        {!loading && !loadError && (<>
+    <Container>
+      <Typography variant="h4"><LibraryMusicIcon /> Canciones Pendientes</Typography>
+      <br />
+      {loading && <Loading />}
+      {loadError && <Alert severity="error">{loadError}</Alert>}
+      {!loading && !loadError && (
+        <>
           <Paper elevation={0}>
             <TextField
               placeholder="Busque por título, géneros"
@@ -91,47 +122,40 @@ export default function CollabPendingSongs() {
             />
           </Paper>
           <br />
-        </>)}
-        {!loading && !loadError && (displayableSongs.length ?
-
-          <TableContainer component={Paper}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox" />
-                  <TableCell>Tītulo</TableCell>
-                  <TableCell>Año</TableCell>
-                  <TableCell>Géneros</TableCell>
+        </>
+      )}
+      {!loading && !loadError && (displayableSongs.length ?
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox" />
+                <TableCell>Tītulo</TableCell>
+                <TableCell>Año</TableCell>
+                <TableCell>Géneros</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {displayableSongs.map((song) => (
+                <TableRow key={song._id}>
+                  <TableCell>
+                    <IconButton
+                      title={playingSong?._id === song._id ? "Detener" : "Reproducir"}
+                      onClick={playingSong?._id === song._id ? stopPlayingSong : reproduceSong(song)}>
+                      {playingSong?._id === song._id ? <StopIcon /> : <PlayIcon />}
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>{song.title}</TableCell>
+                  <TableCell>{song.year}</TableCell>
+                  <TableCell>{song.genres.join(', ')}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {displayableSongs.map((song) => (
-                  <TableRow key={song._id}>
-                    <TableCell>
-                      <IconButton
-                        title={playingSong?._id === song._id ? "Detener" : "Reproducir"}
-                        onClick={playingSong?._id === song._id ? stopPlayingSong : reproduceSong(song)}
-                      >
-                        {playingSong?._id === song._id ?
-                          <StopIcon />
-                          :
-                          <PlayIcon />
-                        }
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>{song.title}</TableCell>
-                    <TableCell>{song.year}</TableCell>
-                    <TableCell>{song.genres.join(', ')}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          :
-          <Alert severity="warning">No hay canciones pendientes</Alert>
-        )}
-      </Container>
-    </>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        :
+        <Alert severity="warning">No hay canciones pendientes</Alert>
+      )}
+    </Container>
   );
 }

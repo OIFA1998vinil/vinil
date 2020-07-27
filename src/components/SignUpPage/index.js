@@ -1,3 +1,8 @@
+/**
+ * SignUpPage component module
+ * @module client/components/shared/components/SignUpPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -24,6 +29,12 @@ import DateFnsUtils from '@date-io/date-fns';
 import esLocale from "date-fns/locale/es";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import clsx from 'clsx';
+
+/**
+ * Sign up page component
+ * @function SignUpPage
+ * @returns {JSX.Element} SignUpPage component template
+ */
 export default function SignUpPage() {
   const history = useHistory();
   const auth = useSelector(selectAuth(USER));
@@ -34,24 +45,44 @@ export default function SignUpPage() {
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Hides success modal
+   * @function cleanInfo
+   */
   const cleanInfo = () => {
     setInfo(null);
     history.push(SIGN_IN());
   };
 
+  /**
+  * Hides error modal
+  * @function cleanError
+  */
   const cleanError = () => {
     setError(null);
   };
 
+  /**
+   * Shows success modal
+   * @function onSuccess
+   */
   const onSuccess = () => {
     setInfo("La solicitud se ha enviado exitósamente")
   };
 
+  /**
+   * Shows error modal
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event and sends forms data to the api to be validated and saved
+   * @param {Object} data Form data
+   */
   const onSubmit = (data) => {
     setLoading(true);
     post(`${API_URL}api/v1/users/sign-up`, data, { withCredentials: true })

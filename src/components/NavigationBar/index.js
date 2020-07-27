@@ -1,4 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
+
+/**
+ * NavigationBar component module
+ * @module client/components/NavigationBar
+ */
+
 import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from "./styles";
 import { List, ListItem, IconButton, Container, ListSubheader, Divider, Button, ListItemIcon, ListItemText } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
-import VinilIcon from "@material-ui/icons/Radio";
 import { Link } from 'react-router-dom';
 import { HOME_PAGE, ADMIN_SIGN_IN, SIGN_IN, ADD_SONG, ADMIN_LANDING, ADMIN_SONGS, ADMIN_REQUESTS_USERS, ADMIN_USERS, COLLAB_SIGN_IN, ADMIN_COLLABORATORS, ADMIN_ADD_COLLABORATORS, COLLAB_LANDING } from '../../locations';
 import clsx from 'clsx';
@@ -35,6 +40,11 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 
 
+/**
+ * Navigation bar component
+ * @function CollabSignInPage
+ * @returns {JSX.Element} NavigationBar component template
+ */
 export default function NavigationBar() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -49,9 +59,17 @@ export default function NavigationBar() {
   const [isAdminSigningOut, setIsAdminSigningOut] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
 
-
+  /**
+   * Hides error modal
+   * @function
+   */
   const cleanError = () => setError(null);
 
+  /**
+   * Performs collaborator sign out
+   * @function
+   * @param {Event} event Click event
+   */
   const onColabSignOutClick = (event) => {
     event.stopPropagation();
     setIsCollabSigningOut(true);
@@ -64,6 +82,11 @@ export default function NavigationBar() {
       .finally(() => setIsCollabSigningOut(false));
   };
 
+  /**
+   * Performs admin sign out
+   * @function
+   * @param {Event} event Click event
+   */
   const onAdminSignOutClick = (event) => {
     event.stopPropagation();
     setIsAdminSigningOut(true);
@@ -76,6 +99,11 @@ export default function NavigationBar() {
       .finally(() => setIsAdminSigningOut(false));
   };
 
+  /**
+   * Performs users sign out
+   * @function
+   * @param {Event} event Click event
+   */
   const onSignOutClick = (event) => {
     event.stopPropagation();
     setIsSigningOut(true);
@@ -98,8 +126,6 @@ export default function NavigationBar() {
             </IconButton>
             <img src={process.env.PUBLIC_URL + '/vinilLogo.png'} className={classes.imagen} />
             <Typography className={classes.title} variant="h5"> Vinil</Typography>
-
-
           </Toolbar>
         </AppBar>
       </div>
@@ -200,8 +226,6 @@ export default function NavigationBar() {
                 </ListItemIcon>
                 <ListItemText primary="Admin Iniciar Sesión" />
               </ListItem>
-
-
             }
           </List>
           <Divider />
@@ -226,7 +250,6 @@ export default function NavigationBar() {
           </List>
         </div>
       </Drawer>
-
       <Dialog open={!!error} onClose={cleanError} maxWidth="xs" fullWidth>
         <DialogTitle>Lo sentimos</DialogTitle>
         <DialogContent>
