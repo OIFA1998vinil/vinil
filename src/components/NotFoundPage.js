@@ -1,3 +1,8 @@
+/**
+ * NotFoundPage component module
+ * @module client/components/NotFoundPage
+ */
+
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 
@@ -11,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Not found page component 
+ * @function NotFoundPage
+ * @returns {JSX.Element} Not found page component template
+ */
 export default function NotFoundPage() {
   const classes = useStyles();
   return (

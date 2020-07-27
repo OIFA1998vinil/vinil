@@ -1,3 +1,8 @@
+/**
+ * AdminAccessRequestPage component module
+ * @module client/components/AdminAccessRequestPage
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, IconButton } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -21,7 +26,12 @@ import axios from "axios";
 import { SERVER_API_URL } from '../../settings';
 import Loading from '../Loading';
 
-export default function AdminSongsPage() {
+/**
+ * Admin Access Request page component
+ * @function AdminAccessRequestPage
+ * @returns {JSX.Element} AdminAccessRequestPage component template
+ */
+export default function AdminAccessRequestPage() {
 
   const [userRequests, setUserRequests] = useState([]);
   const [loadingUserRequests, setLoadingUserRequests] = useState(true);
@@ -32,37 +42,64 @@ export default function AdminSongsPage() {
   const [loadingAccept, setLoadingAccept] = useState(false);
   const [acceptError, setAcceptError] = useState(null);
 
-
   const [showRejectConfirmation, setShowRejectConfirmation] = useState(false);
   const [stagedRequestToReject, setStagedRequestToReject] = useState(false);
   const [loadingReject, setLoadingReject] = useState(false);
   const [rejectError, setRejectError] = useState(null);
 
-
+  /**
+   * Cleans accept error message
+   * @function cleanAcceptError
+   */
   const cleanAcceptError = () => setAcceptError(null);
 
+  /**
+   * Stages a user request ID to accept it and displays accept confirmation modal
+   * @function stageRequestToAccept
+   * @param {String} id User ID
+   */
   const stageRequestToAccept = (id) => () => {
     setStagedRequestToAccept(id);
     setShowAcceptConfirmation(true);
   };
 
+  /**
+   * Cleans staged user request ID to accept and hides accept confirmation modal
+   * @function cancelAccept
+   */
   const cancelAccept = () => {
     setStagedRequestToAccept(null);
     setShowAcceptConfirmation(false);
   };
 
+  /**
+   * Cleans rejection error
+   * @function cleanRejectError
+   */
   const cleanRejectError = () => setRejectError(null);
 
+  /**
+   * Stages an user to reject by it's ID and displays reject confirmation modal
+   * @param {String} id User request ID
+   */
   const stageRequestToReject = (id) => () => {
     setStagedRequestToReject(id);
     setShowRejectConfirmation(true);
   };
 
+  /**
+   * Cleans staged user request ID to reject and hides reject confirmation modal
+   * @function cancelReject
+   */
   const cancelReject = () => {
     setStagedRequestToReject(null);
     setShowRejectConfirmation(false);
   };
 
+  /**
+   * Performs the acceptance of an user request
+   * @function performAccept
+   */
   const performAccept = () => {
     setLoadingAccept(true);
     axios.post(`${SERVER_API_URL}api/v1/users/accept/${stagedRequestToAccept}`, null, { withCredentials: true })
@@ -74,6 +111,10 @@ export default function AdminSongsPage() {
       });
   };
 
+  /**
+   * Performs the rejection of an user request
+   * @function performReject
+   */
   const performReject = () => {
     setLoadingReject(true);
     axios.post(`${SERVER_API_URL}api/v1/users/reject/${stagedRequestToReject}`, null, { withCredentials: true })
@@ -85,6 +126,10 @@ export default function AdminSongsPage() {
       });
   };
 
+  /**
+   * Loads user requests
+   * @function loadRequests
+   */
   const loadRequests = () => {
     setLoadingUserRequests(true);
     axios.get(`${SERVER_API_URL}api/v1/users/pending`, { withCredentials: true })
@@ -93,6 +138,9 @@ export default function AdminSongsPage() {
       .finally(() => setLoadingUserRequests(false))
   };
 
+  /**
+   * Load user request when component did mount
+   */
   useEffect(() => {
     loadRequests();
   }, []);

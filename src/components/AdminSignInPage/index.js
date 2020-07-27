@@ -1,3 +1,8 @@
+/**
+ * AdminSignInPage component module
+ * @module client/components/AdminSignInPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -17,28 +22,49 @@ import { signIn } from '../../redux/actions';
 import { Redirect } from 'react-router-dom';
 import { ADMIN_LANDING } from '../../locations';
 
+/**
+ * Admin sign in page component
+ * @function AdminSignInPage
+ * @returns {JSX.Element} AdminSignInPage component template
+ */
 export default function AdminSignInPage() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth(ADMIN));
   const classes = useStyles();
+
+  /**
+   * Use React Hook Form to manage forms see: [React Hook Form documentation]{@link https://react-hook-form.com/get-started}
+   */
   const form = useForm();
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const cleanError = () => {
-    setError(null);
-  };
+  /**
+   * Hides error modal
+   * @function cleanError
+   */
+  const cleanError = () => setError(null);
 
-  const onSuccess = (admin) => {
-    dispatch(signIn(ADMIN, admin));
-  };
+  /**
+   * Signs into the application as an ADMIN
+   * @param {Object} admin Admin information
+   */
+  const onSuccess = (admin) => dispatch(signIn(ADMIN, admin));
 
+  /**
+   * Shows error modal
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event
+   * @param {Object} credentials Form data
+   */
   const onSubmit = (credentials) => {
     setLoading(true);
     post(`${API_URL}api/v1/admin/sign-in`, credentials, { withCredentials: true })

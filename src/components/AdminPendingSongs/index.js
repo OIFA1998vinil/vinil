@@ -1,4 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/**
+ * AdminPendingSongs component module
+ * @module client/components/AdminPendingSongs
+ */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -30,6 +35,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPlayingSong } from '../../redux/selectors';
 import { stopSong, playSong } from '../../redux/actions';
 
+/**
+ * Admin pending songs page page component
+ * @function AdminPendingSongs
+ * @returns {JSX.Element} AdminPendingSongs component template
+ */
 export default function AdminPendingSongs() {
   const dispatch = useDispatch();
   const playingSong = useSelector(selectPlayingSong);
@@ -43,12 +53,19 @@ export default function AdminPendingSongs() {
     if (!search) {
       return songs;
     }
+    /**
+     * Use fuse to perform searches see: [Fuse]{@link https://fusejs.io/}
+     */
     const fuse = new Fuse(songs, { keys: ["title", "year", "genres"] });
     const result = fuse.search(search);
     return result.map(result => result.item);
   }, [actions, search])
 
 
+  /**
+   * Loads all the actions with type INSERT_SONG which payload has the shape of an unsaved song
+   * @function loadSongs
+   */
   const loadSongs = () => {
     setLoading(true);
     axios.get(`${SERVER_API_URL}api/v1/actions/staged/songs`, { withCredentials: true })
@@ -57,10 +74,19 @@ export default function AdminPendingSongs() {
       .finally(() => setLoading(false))
   };
 
+  /**
+   * Stops the currently playing song
+   * @function stopPlayingSong
+   */
   const stopPlayingSong = () => {
     dispatch(stopSong());
   };
 
+  /**
+   * Plays a song
+   * @function reproduceSong
+   * @param {Object} song Song object
+   */
   const reproduceSong = (song) => () => {
     dispatch(playSong(song));
   };
@@ -77,31 +103,60 @@ export default function AdminPendingSongs() {
   const [loadingReject, setLoadingReject] = useState(false);
   const [rejectError, setRejectError] = useState(null);
 
-
+  /**
+   * Hides acceptance error modal
+   * @function cleanAcceptError
+   */
   const cleanAcceptError = () => setAcceptError(null);
 
+  /**
+   * Stages an action to be accepted and displays accept confirmation modal
+   * @function stageRequestToAccept
+   * @param {String} id Action ID
+   */
   const stageRequestToAccept = (id) => () => {
     setStagedRequestToAccept(id);
     setShowAcceptConfirmation(true);
   };
 
+  /**
+   * Removes any action staged to be accepted and hides accept confirmation modal
+   * @function cancelAccept
+   */
   const cancelAccept = () => {
     setStagedRequestToAccept(null);
     setShowAcceptConfirmation(false);
   };
 
+  /**
+   * Hides rejection error modal
+   * @function cleanRejectError
+   */
   const cleanRejectError = () => setRejectError(null);
 
+  /**
+   * Stages an action to be rejected and displays reject confirmation modal
+   * @function stageRequestToReject
+   * @param {String} id Action ID to reject
+   */
   const stageRequestToReject = (id) => () => {
     setStagedRequestToReject(id);
     setShowRejectConfirmation(true);
   };
 
+  /**
+   * Cleans any staged action to reject and hides reject confirmation modal
+   * @function cancelReject
+   */
   const cancelReject = () => {
     setStagedRequestToReject(null);
     setShowRejectConfirmation(false);
   };
 
+  /**
+   * Performs the acceptance of an action using staged action to accept
+   * @function performAccept
+   */
   const performAccept = () => {
     setLoadingAccept(true);
     axios.post(`${SERVER_API_URL}api/v1/actions/commit/insert-song/${stagedRequestToAccept}`, null, { withCredentials: true })
@@ -113,6 +168,10 @@ export default function AdminPendingSongs() {
       });
   };
 
+  /**
+   * Performs the rejection of an action using staged action to reject
+   * @function performReject
+   */
   const performReject = () => {
     setLoadingReject(true);
     axios.post(`${SERVER_API_URL}api/v1/actions/discard/insert-song/${stagedRequestToReject}`, null, { withCredentials: true })
@@ -124,6 +183,10 @@ export default function AdminPendingSongs() {
       });
   };
 
+  /**
+   * Loads pending song actions when component did mount
+   * When component is dismount it stops any playing song
+   */
   useEffect(() => {
     loadSongs();
     return () => {

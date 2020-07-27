@@ -1,7 +1,11 @@
+/**
+ * Loading component module
+ * @module client/components/Loading
+ */
+
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+/**
+ * Loading component
+ * @function Loading
+ * @returns {JSX.Element} Loading component template
+ */
 export default function Loading() {
   const classes = useStyles();
   return (

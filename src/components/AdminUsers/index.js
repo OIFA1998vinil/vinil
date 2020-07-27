@@ -1,3 +1,8 @@
+/**
+ * AdminUsers component module
+ * @module client/components/AdminUsers
+ */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -23,8 +28,12 @@ import Fuse from "fuse.js";
 import { SERVER_API_URL } from '../../settings';
 import Loading from '../Loading';
 
-export default function AdminSongsPage() {
-
+/**
+ * Admin users page component
+ * @function AdminUsers
+ * @returns {JSX.Element} AdminUsers component template
+ */
+export default function AdminUsers() {
   const [usersData, setUsersData] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadUserRequestError, setLoadUserRequestsError] = useState(null);
@@ -40,35 +49,59 @@ export default function AdminSongsPage() {
     if (!search) {
       return usersData;
     }
+
+    /**
+     * Use fuse to perform searches see: [Fuse]{@link https://fusejs.io/}
+     */
     const fuse = new Fuse(usersData, { keys: ["email", "name", "lastName", "rol", "gender"] });
     const result = fuse.search(search);
     return result.map(result => result.item);
   }, [usersData, search])
 
+  /**
+   * Hides rejection error modal
+   * @function cleanRejectError
+   */
+  const cleanDeleteError = () => setDeleteError(null);
 
-  const cleanRejectError = () => setDeleteError(null);
-
-  const stageRequestToReject = (id) => () => {
+  /**
+   * Stages an user to be deleted (deleted) and shows confirmation modal
+   * @function stageUserToDelete
+   * @param {String} id User ID
+   */
+  const stageUserToDelete = (id) => () => {
     setStagedUserToDelete(id);
     setShowDeleteConfirmation(true);
   };
 
-  const cancelReject = () => {
+  /**
+   * Cleans staged user to delete and hides confirmation modal
+   * @function cancelDelete
+   */
+  const cancelDelete = () => {
     setStagedUserToDelete(null);
     setShowDeleteConfirmation(false);
   };
 
-  const performReject = () => {
+  /**
+   * Performs delete of the staged user to delete
+   * @function performDelete
+   */
+  const performDelete = () => {
     setLoadingDelete(true);
     axios.post(`${SERVER_API_URL}api/v1/users/reject/${stagedUserToDelete}`, null, { withCredentials: true })
       .then(() => loadUsers())
       .catch(err => setDeleteError(err.response?.data?.error || 'Hubo un error de conexión al eliminar el usuario'))
       .finally(() => {
-        cancelReject();
+        cancelDelete();
         setLoadingDelete(false);
       });
   };
 
+  /**
+   * Loads users
+   * @function
+   */
   const loadUsers = () => {
     setLoadingUsers(true);
     axios.get(`${SERVER_API_URL}api/v1/users/active`, { withCredentials: true })
@@ -77,6 +110,9 @@ export default function AdminSongsPage() {
       .finally(() => setLoadingUsers(false))
   };
 
+  /**
+   * Loads users when component did mount
+   */
   useEffect(() => {
     loadUsers();
   }, []);
@@ -131,7 +167,7 @@ export default function AdminSongsPage() {
                     <TableCell>{new Date(user.bornDate).toLocaleDateString()}</TableCell>
                     <TableCell>{user.rol}</TableCell>
                     <TableCell>
-                      <IconButton title="Rechazar" onClick={stageRequestToReject(user._id)}>
+                      <IconButton title="Rechazar" onClick={stageUserToDelete(user._id)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -153,17 +189,17 @@ export default function AdminSongsPage() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button disabled={loadingDelete} onClick={performReject} color="primary">
+          <Button disabled={loadingDelete} onClick={performDelete} color="primary">
             {loadingDelete ? "Eliminando" : "Eliminar"}
           </Button>
-          <Button disabled={loadingDelete} onClick={cancelReject} color="primary" autoFocus>
+          <Button disabled={loadingDelete} onClick={cancelDelete} color="primary" autoFocus>
             Cancelar
           </Button>
         </DialogActions>
       </Dialog>
 
 
-      <Dialog open={!!deleteError} onClose={cleanRejectError}>
+      <Dialog open={!!deleteError} onClose={cleanDeleteError}>
         <DialogTitle>Lo sentimos</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -171,7 +207,7 @@ export default function AdminSongsPage() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={cleanRejectError} color="primary">
+          <Button onClick={cleanDeleteError} color="primary">
             Aceptar
           </Button>
         </DialogActions>

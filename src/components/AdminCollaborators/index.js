@@ -1,3 +1,8 @@
+/**
+ * AdminCollaborators component module
+ * @module client/components/AdminCollaborators
+ */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -23,8 +28,13 @@ import Fuse from "fuse.js";
 import { SERVER_API_URL } from '../../settings';
 import Loading from '../Loading';
 
-export default function AdminCollaborators() {
 
+/**
+ * Admin collaborators page component
+ * @function AdminCollaborators
+ * @returns {JSX.Element} AdminCollaborators component template
+ */
+export default function AdminCollaborators() {
   const [collaboratorsData, setCollaboratorsData] = useState([]);
   const [loadingCollaborators, setLoadingCollaborators] = useState(true);
   const [loadCollaboratorsRequestError, setLoadCollaboratorsRequestsError] = useState(null);
@@ -40,24 +50,46 @@ export default function AdminCollaborators() {
     if (!search) {
       return collaboratorsData;
     }
+
+    /**
+     * Use fuse to perform searches see: [Fuse]{@link https://fusejs.io/}
+     */
     const fuse = new Fuse(collaboratorsData, { keys: ["email", "name", "lastName"] });
     const result = fuse.search(search);
     return result.map(result => result.item);
   }, [collaboratorsData, search])
 
 
+  /**
+   * Hides error modal
+   * @function cleanBanError
+   */
   const cleanBanError = () => setBanError(null);
 
+  /**
+   * Stages a collaborator ID to be deleted
+   * @function stageCollaboratorToBan
+   * @param {String} id Collaborator ID
+   */
   const stageCollaboratorToBan = (id) => () => {
     setStagedCollaboratorToBan(id);
     setShowBanConfirmation(true);
   };
 
+  /**
+   * Removes any staged collaborator ID and closes ban confirmation modal
+   * @function cancelBan
+   */
   const cancelBan = () => {
     setStagedCollaboratorToBan(null);
     setShowBanConfirmation(false);
   };
 
+
+  /**
+   * Performs ban, sends the ban request to the API 
+   * @function performBan
+   */
   const performBan = () => {
     setLoadingBan(true);
     axios.put(`${SERVER_API_URL}api/v1/collaborators/deactivate/${stagedCollaboratorToBan}`, null, { withCredentials: true })
@@ -69,6 +101,10 @@ export default function AdminCollaborators() {
       });
   };
 
+  /**
+   * Loads collaborators data
+   * @function loadCollaborators
+   */
   const loadCollaborators = () => {
     setLoadingCollaborators(true);
     axios.get(`${SERVER_API_URL}api/v1/collaborators/active`, { withCredentials: true })
@@ -77,6 +113,9 @@ export default function AdminCollaborators() {
       .finally(() => setLoadingCollaborators(false))
   };
 
+  /**
+   * Load collaborators data after component has been rendered
+   */
   useEffect(() => {
     loadCollaborators();
   }, []);

@@ -1,8 +1,12 @@
+/**
+ * AddSongPage component module
+ * @module client/components/AddSongPage
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
 import useStyles from "../shared/styles/forms";
-import "./styles.css";
 import MultiSelect from '../shared/components/MultiSelect';
 import { useForm, Controller } from 'react-hook-form';
 import FileZone from '../shared/components/FileZone';
@@ -15,34 +19,66 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { ADMIN_SONGS } from '../../locations';
+import "./styles.css";
 
+/**
+ * Add song page component
+ * @function AddSongPage
+ * @returns {JSX.Element} AddSongPage component template
+ */
 export default function AddSongPage() {
   const classes = useStyles();
   const history = useHistory();
+
+  /**
+   * Use React Hook Form to manage forms see: [React Hook Form documentation]{@link https://react-hook-form.com/get-started}
+   */
   const form = useForm();
 
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Redirects the app to ADMIN_SONGS location
+   * @function exit
+   */
   const exit = () => {
     setSuccess(false);
     history.push(ADMIN_SONGS());
   };
 
+  /**
+   * Hides the error modal
+   * @function cleanError
+   */
   const cleanError = () => {
     setError(null);
   };
 
+  /**
+   * Displays success modal
+   * @function onSuccess
+   */
   const onSuccess = () => {
     setSuccess(true);
   };
 
+  /**
+   * Displays fail modal
+   * @function onFail
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event and sends form information to API
+   * @function onSubmit
+   * @param {Object} data Form data
+   */
   const onSubmit = (data) => {
     setLoading(true);
     var formData = new FormData();

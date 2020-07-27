@@ -1,3 +1,8 @@
+/**
+ * AdminSongsPage component module
+ * @module client/components/AdminSongsPage
+ */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Typography, IconButton, TextField } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -31,6 +36,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPlayingSong } from '../../redux/selectors';
 import { stopSong, playSong } from '../../redux/actions';
 
+/**
+ * Admin songs page component
+ * @function AdminSongsPage
+ * @returns {JSX.Element} AdminSongsPage component template
+ */
 export default function AdminSongsPage() {
   const dispatch = useDispatch();
   const playingSong = useSelector(selectPlayingSong);
@@ -47,23 +57,44 @@ export default function AdminSongsPage() {
     if (!search) {
       return songs;
     }
+
+    /**
+     * Use fuse to perform searches see: [Fuse]{@link https://fusejs.io/}
+     */
     const fuse = new Fuse(songs, { keys: ["title", "year", "genres"] });
     const result = fuse.search(search);
     return result.map(result => result.item);
   }, [songs, search])
 
+  /**
+   * Hides delete error modal
+   * @function cleanDeleteError
+   */
   const cleanDeleteError = () => setDeleteError(null);
 
+  /**
+   * Stages a song to be deleted and shows delete confirmation modal
+   * @function stageSongToDelete
+   * @param {String} id Song ID
+   */
   const stageSongToDelete = (id) => () => {
     setStagedSongToDelete(id);
     setShowDeleteConfirmation(true);
   };
 
+  /**
+   * Cleans staged song to be deleted and hides delete confirmation modal
+   * @function cancelDelete
+   */
   const cancelDelete = () => {
     setStagedSongToDelete(null);
     setShowDeleteConfirmation(false);
   };
 
+  /**
+   * Performs delete on staged song to delete
+   * @function
+   */
   const performDelete = () => {
     setLoadingDelete(true);
     if (playingSong?._id === stagedSongToDelete) {
@@ -80,6 +111,10 @@ export default function AdminSongsPage() {
       });
   };
 
+  /**
+   * Loads songs
+   * @function
+   */
   const loadSongs = () => {
     setLoadingSongs(true);
     axios.get(`${SERVER_API_URL}api/v1/songs/all`, { withCredentials: true })
@@ -90,14 +125,25 @@ export default function AdminSongsPage() {
       .finally(() => setLoadingSongs(false))
   };
 
+  /**
+   * Stops currently playing song
+   * @function
+   */
   const stopPlayingSong = () => {
     dispatch(stopSong());
   };
 
+  /**
+   * Plays a song
+   * @param {Object} song Song object
+   */
   const reproduceSong = (song) => () => {
     dispatch(playSong(song));
   };
 
+  /**
+   * Loads songs when component did mount and stops any playing song when component unmounts
+   */
   useEffect(() => {
     loadSongs();
     return () => {
@@ -121,27 +167,28 @@ export default function AdminSongsPage() {
         <br /><br />
         {loadingSongs && <Loading />}
         {loadError && <Alert severity="error">{loadError}</Alert>}
-        {!loadingSongs && !loadError && (<>
-          <Paper elevation={0}>
-            <TextField
-              placeholder="Busque por título, géneros"
-              onChange={event => setSearch(event.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment >
-                ),
-              }}
-              label="Buscar"
-              variant="outlined"
-              fullWidth
-            />
-          </Paper>
-          <br />
-        </>)}
+        {!loadingSongs && !loadError && (
+          <>
+            <Paper elevation={0}>
+              <TextField
+                placeholder="Busque por título, géneros"
+                onChange={event => setSearch(event.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                label="Buscar"
+                variant="outlined"
+                fullWidth
+              />
+            </Paper>
+            <br />
+          </>
+        )}
         {!loadingSongs && !loadError && (displayableSongs.length ?
-
           <TableContainer component={Paper}>
             <Table size="small">
               <TableHead>
@@ -159,13 +206,8 @@ export default function AdminSongsPage() {
                     <TableCell>
                       <IconButton
                         title={playingSong?._id === song._id ? "Detener" : "Reproducir"}
-                        onClick={playingSong?._id === song._id ? stopPlayingSong : reproduceSong(song)}
-                      >
-                        {playingSong?._id === song._id ?
-                          <StopIcon />
-                          :
-                          <PlayIcon />
-                        }
+                        onClick={playingSong?._id === song._id ? stopPlayingSong : reproduceSong(song)}>
+                        {playingSong?._id === song._id ? <StopIcon /> : <PlayIcon />}
                       </IconButton>
                     </TableCell>
                     <TableCell>{song.title}</TableCell>
@@ -181,7 +223,6 @@ export default function AdminSongsPage() {
               </TableBody>
             </Table>
           </TableContainer>
-
           :
           <Alert severity="warning">No hay canciones</Alert>
         )}

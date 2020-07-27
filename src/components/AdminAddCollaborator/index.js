@@ -1,3 +1,8 @@
+/**
+ * AdminAddCollaborator component module
+ * @module client/components/AdminAddCollaborator
+ */
+
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Paper, Grid, Typography } from '@material-ui/core';
@@ -13,33 +18,63 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import { ADMIN_COLLABORATORS } from '../../locations';
 
+/**
+ * Admin add collaborator page component
+ * @function AdminAddCollaborator
+ * @returns {JSX.Element} AdminAddCollaborator component template
+ */
 export default function AdminAddCollaborator() {
   const classes = useStyles();
   const history = useHistory();
+
+  /**
+   * Use React Hook Form to manage forms see: [React Hook Form documentation]{@link https://react-hook-form.com/get-started}
+   */
   const form = useForm();
 
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Hides success modal and redirects the user to ADMIN_COLLABORATORS location
+   * @function exit
+   */
   const exit = () => {
     setSuccess(false);
     history.push(ADMIN_COLLABORATORS());
   };
 
+  /**
+   * Hides error modal
+   * @function cleanError
+   */
   const cleanError = () => {
     setError(null);
   };
 
+  /**
+   * Shows success modal
+   * @function onSuccess
+   */
   const onSuccess = () => {
     setSuccess(true);
   };
 
+  /**
+   * Shows error modal
+   * @param {String} error Error message
+   */
   const onFail = (error) => {
     setError(error);
     setLoading(false);
   };
 
+  /**
+   * Handles form submit event
+   * @function onSubmit
+   * @param {Object} data Form data
+   */
   const onSubmit = (data) => {
     setLoading(true);
     post(`${SERVER_API_URL}api/v1/collaborators/insert`, data, { withCredentials: true })
