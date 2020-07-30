@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { deepPurple, grey } from "@material-ui/core/colors";
 import NavigationBar from './NavigationBar';
+import ErrorHandler from './ErrorHandler';
 
 /**
  * Application theme see: [Material UI documentation]{@link https://material-ui.com/customization/color/#picking-colors}
@@ -32,8 +33,10 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <NavigationBar />
-        <ClientRouter />
+        <ErrorHandler>
+          <NavigationBar />
+          <ClientRouter />
+        </ErrorHandler>
       </CssBaseline>
     </ThemeProvider>
   );

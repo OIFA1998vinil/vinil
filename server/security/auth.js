@@ -14,7 +14,7 @@ const EXPIRATION_TIME = 604800000;
  */
 function authenticate(res, key, data) {
   const token = generate(data);
-  res.cookie(key, token, { expires: new Date(Date.now() + EXPIRATION_TIME), secure: false, httpOnly: true, sameSite: 'None' });
+  res.cookie(key, token, { expires: new Date(Date.now() + EXPIRATION_TIME), secure: false, httpOnly: true });
 }
 
 /**
